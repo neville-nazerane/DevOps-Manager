@@ -1,10 +1,13 @@
-﻿using DevOpsManager.MobileApp.Services;
+﻿using DevOpsManager.MobileApp.Helpers;
+using DevOpsManager.MobileApp.Services;
 using DevOpsManager.MobileApp.ViewModels;
 using FreshMvvm;
 using System;
 using System.Net.Http;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Xamarin.FluentInjector;
+using DevOpsManager.MobileApp.Pages;
 
 namespace DevOpsManager.MobileApp
 {
@@ -13,25 +16,20 @@ namespace DevOpsManager.MobileApp
         public App()
         {
 
-            FreshIOC.Container.Register(new HttpClient { 
-                BaseAddress = new Uri("https://dev.azure.com")
-            }).AsSingleton();
-
-            FreshIOC.Container.Register<DevOpsService, DevOpsService>().AsSingleton();
-
+            string done = this.StartInjecting()
+                                .SetViewModelAssembly(typeof(MainViewModel).Assembly)
+                                .AddSingleton<HttpClient>()
+                                .AddSingleton<DevOpsService>()
+                                .Build();   
             InitializeComponent();
-
-            var basicPage = FreshPageModelResolver.ResolvePageModel<MonViewModel>();
-            var basicContainer = new FreshNavigationContainer(basicPage);
-
-          //  var myMaster = new FreshMvvm.FreshMasterDetailNavigationContainer();
-            //myMaster.Init("Menu dude");
-            //myMaster.AddPage<MainViewModel>("Oh no batman!");
-            MainPage = basicContainer;
+            var page = new MainPage();
+            page.Text = done;
+            MainPage = page;
         }
 
         protected override void OnStart()
         {
+            
             // Handle when your app starts
         }
 

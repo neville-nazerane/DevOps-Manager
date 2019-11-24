@@ -11,9 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevOpsManager.MobileApp", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevOpsManager.MobileApp.ViewModels", "DevOpsManager.MobileApp.ViewModels\DevOpsManager.MobileApp.ViewModels.csproj", "{02EAA4D6-2CD7-4893-B5A0-8403396DADE8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevOpsManager.MobileApp.Services", "DevOpsManager.MobileApp.Services\DevOpsManager.MobileApp.Services.csproj", "{2918E53E-06C4-4EBB-B999-B1DBB4AE887F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevOpsManager.MobileApp.Services", "DevOpsManager.MobileApp.Services\DevOpsManager.MobileApp.Services.csproj", "{2918E53E-06C4-4EBB-B999-B1DBB4AE887F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevOpsManager.MobileApp.Models", "DevOpsManager.MobileApp.Models\DevOpsManager.MobileApp.Models.csproj", "{31646BC4-C1F3-439E-8FF7-7AE6B40C188C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevOpsManager.MobileApp.Models", "DevOpsManager.MobileApp.Models\DevOpsManager.MobileApp.Models.csproj", "{31646BC4-C1F3-439E-8FF7-7AE6B40C188C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xamarin.FluentInjector", "Xamarin.FluentInjector\Xamarin.FluentInjector.csproj", "{464A2AF2-2694-4FA1-9933-2DA0135C7CC0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -101,6 +103,18 @@ Global
 		{31646BC4-C1F3-439E-8FF7-7AE6B40C188C}.Release|iPhone.Build.0 = Release|Any CPU
 		{31646BC4-C1F3-439E-8FF7-7AE6B40C188C}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{31646BC4-C1F3-439E-8FF7-7AE6B40C188C}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{464A2AF2-2694-4FA1-9933-2DA0135C7CC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{464A2AF2-2694-4FA1-9933-2DA0135C7CC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{464A2AF2-2694-4FA1-9933-2DA0135C7CC0}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{464A2AF2-2694-4FA1-9933-2DA0135C7CC0}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{464A2AF2-2694-4FA1-9933-2DA0135C7CC0}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{464A2AF2-2694-4FA1-9933-2DA0135C7CC0}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{464A2AF2-2694-4FA1-9933-2DA0135C7CC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{464A2AF2-2694-4FA1-9933-2DA0135C7CC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{464A2AF2-2694-4FA1-9933-2DA0135C7CC0}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{464A2AF2-2694-4FA1-9933-2DA0135C7CC0}.Release|iPhone.Build.0 = Release|Any CPU
+		{464A2AF2-2694-4FA1-9933-2DA0135C7CC0}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{464A2AF2-2694-4FA1-9933-2DA0135C7CC0}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

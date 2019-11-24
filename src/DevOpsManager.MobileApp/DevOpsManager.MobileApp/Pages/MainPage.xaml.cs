@@ -13,6 +13,9 @@ namespace DevOpsManager.MobileApp.Pages
     [DesignTimeVisible(false)]
     public partial class MainPage : FreshMvvm.FreshBaseContentPage
     {
+
+        public string Text { set => lbl.Text = value; }
+
         public MainPage()
         {
             InitializeComponent();

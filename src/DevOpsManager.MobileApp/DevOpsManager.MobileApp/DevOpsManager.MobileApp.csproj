@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.0.1" />
     <PackageReference Include="Xamarin.Forms" Version="4.3.0.991211" />
     <PackageReference Include="Xamarin.Essentials" Version="1.3.1" />
     <PackageReference Include="FreshMvvm" Version="3.0.0" />
@@ -15,6 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\DevOpsManager.MobileApp.Services\DevOpsManager.MobileApp.Services.csproj" />
     <ProjectReference Include="..\..\DevOpsManager.MobileApp.ViewModels\DevOpsManager.MobileApp.ViewModels.csproj" />
+    <ProjectReference Include="..\..\Xamarin.FluentInjector\Xamarin.FluentInjector.csproj" />
   </ItemGroup>
 
   <ItemGroup>

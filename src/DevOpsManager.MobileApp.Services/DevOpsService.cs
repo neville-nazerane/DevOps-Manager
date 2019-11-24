@@ -4,7 +4,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using Xamarin.Essentials;
 
 namespace DevOpsManager.MobileApp.Services
 {
@@ -23,12 +22,12 @@ namespace DevOpsManager.MobileApp.Services
                                                                     Convert.ToBase64String(
                                                                         Encoding.ASCII.GetBytes(
                                                                             string.Format("{0}:{1}", "", personalAccessToken))));
-            await SecureStorage.SetAsync("pat", personalAccessToken);
+            //await SecureStorage.SetAsync("pat", personalAccessToken);
         }
 
         public async Task<bool> TryRefreshAuthAsync()
         {
-            string token = await SecureStorage.GetAsync("pat");
+            string token = "";// await SecureStorage.GetAsync("pat");
             if (string.IsNullOrEmpty(token)) return false;
             await AuthroizeAsync(token);
             return true;
