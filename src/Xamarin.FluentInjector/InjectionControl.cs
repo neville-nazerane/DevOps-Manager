@@ -13,8 +13,8 @@ namespace Xamarin.FluentInjector
         internal static IServiceProvider _provider;
         internal static IServiceCollection _services;
 
-        internal static Action<Page> _navigationAction;
-        internal static Func<Page, Task> _asyncNavigationFunc;
+        internal static Action<Page> navigationAction;
+        internal static Func<Page, Task> asyncNavigationFunc;
 
         public static T Resolve<T>() => _provider.GetService<T>();
 
@@ -29,15 +29,15 @@ namespace Xamarin.FluentInjector
         public static Page Navigate<TViewModel>()
         {
             Page page = ResolvePage<TViewModel>();
-            _navigationAction?.Invoke(page);
+            navigationAction?.Invoke(page);
             return page;
         }
 
         public static async Task<Page> NavigateAsync<TViewModel>()
         {
             Page page = ResolvePage<TViewModel>();
-            if (_asyncNavigationFunc != null)
-                await _asyncNavigationFunc(page);
+            if (asyncNavigationFunc != null)
+                await asyncNavigationFunc(page);
             return page;
         }
 

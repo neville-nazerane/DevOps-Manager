@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace Xamarin.FluentInjector
@@ -21,6 +22,12 @@ namespace Xamarin.FluentInjector
             _services = new ServiceCollection();
             _pageAssembly = _app.GetType().Assembly;
             _viewModelAssembly = _app.GetType().Assembly;
+            InjectionControl.navigationAction = p => _app.MainPage = p;
+            InjectionControl.asyncNavigationFunc = p =>
+            {
+                _app.MainPage = p;
+                return Task.CompletedTask;
+            };
         }
 
         public InjectionBuilder(object app)
@@ -93,6 +100,18 @@ namespace Xamarin.FluentInjector
         public InjectionBuilder SetViewModelAssembly(Assembly assembly)
         {
             _viewModelAssembly = assembly;
+            return this;
+        }
+
+        public InjectionBuilder OverrideNavigate(Action<Page> action)
+        {
+            InjectionControl.navigationAction = action;
+            return this;
+        }
+
+        public InjectionBuilder OverrideAsyncNavigate(Func<Page, Task> func)
+        {
+            InjectionControl.asyncNavigationFunc = func;
             return this;
         }
 
