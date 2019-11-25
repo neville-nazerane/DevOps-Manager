@@ -13,15 +13,17 @@ namespace Xamarin.FluentInjector
     {
         private readonly Application _app;
         private readonly ServiceCollection _services;
-        private Assembly _pageAssembly;
-        private Assembly _viewModelAssembly;
+        private Assembly pageAssembly;
+        private Assembly viewModelAssembly;
+        private Page defaultPage;
+        private bool shouldSetDefaultPage = true;
 
         internal InjectionBuilder(Application app)
         {
             _app = app;
             _services = new ServiceCollection();
-            _pageAssembly = _app.GetType().Assembly;
-            _viewModelAssembly = _app.GetType().Assembly;
+            pageAssembly = _app.GetType().Assembly;
+            viewModelAssembly = _app.GetType().Assembly;
             InjectionControl.navigationAction = p => _app.MainPage = p;
             InjectionControl.asyncNavigationFunc = p =>
             {
@@ -33,8 +35,8 @@ namespace Xamarin.FluentInjector
         public InjectionBuilder(object app)
         {
             _services = new ServiceCollection();
-            _pageAssembly = app.GetType().Assembly;
-            _viewModelAssembly = app.GetType().Assembly;
+            pageAssembly = app.GetType().Assembly;
+            viewModelAssembly = app.GetType().Assembly;
         }
 
         #region adding services
@@ -94,12 +96,25 @@ namespace Xamarin.FluentInjector
 
         public InjectionBuilder SetPageAssembly(Assembly assembly)
         {
-            _pageAssembly = assembly;
+            pageAssembly = assembly;
             return this;
         }
+        
         public InjectionBuilder SetViewModelAssembly(Assembly assembly)
         {
-            _viewModelAssembly = assembly;
+            viewModelAssembly = assembly;
+            return this;
+        }
+
+        public InjectionBuilder SetDefaultPage(Page page)
+        {
+            defaultPage = page;
+            return this;
+        }
+
+        public InjectionBuilder DisableSettingDefaultPage()
+        {
+            shouldSetDefaultPage = false;
             return this;
         }
 
@@ -115,15 +130,15 @@ namespace Xamarin.FluentInjector
             return this;
         }
 
-        public string Build()
+        public void Build()
         {
 
-            var types = _pageAssembly.GetTypes();
+            var types = pageAssembly.GetTypes();
             var filtered = types.Where(t => typeof(Page).IsAssignableFrom(t));
             Dictionary<string, Type> pages = new Dictionary<string, Type>();
 
             // fetching pages
-            foreach (Type page in _pageAssembly.GetTypes().Where(t => typeof(Page).IsAssignableFrom(t)))
+            foreach (Type page in pageAssembly.GetTypes().Where(t => typeof(Page).IsAssignableFrom(t)))
             {
                 string name = page.Name;
                 if (name.EndsWith("page", StringComparison.InvariantCultureIgnoreCase) || name.EndsWith("view", StringComparison.InvariantCultureIgnoreCase))
@@ -132,14 +147,12 @@ namespace Xamarin.FluentInjector
                     throw new AmbiguousMatchException($"The page name '{name}' is used more than once.");
                 pages[name] = page;
 
-                _services.AddScoped(page);
+                _services.AddTransient(page);
             }
 
 
             // fetching view models
-            var mods = _viewModelAssembly.GetTypes();
-            int allCount = mods.Count();
-           var viewModels = _viewModelAssembly.GetTypes()
+           var viewModels = viewModelAssembly.GetTypes()
                                    .Where(t => t.Name.EndsWith("viewmodel", StringComparison.InvariantCultureIgnoreCase)
                                                || t.Name.EndsWith("pagemodel", StringComparison.InvariantCultureIgnoreCase));
             int count = viewModels.Count();
@@ -158,7 +171,23 @@ namespace Xamarin.FluentInjector
             }
             InjectionControl._services = _services;
             InjectionControl._provider = _services.BuildServiceProvider();
-            return $"All were {allCount} but found {count} view models which are: {string.Join(",", viewModels.Select(v => v.Name))}";
+            if (shouldSetDefaultPage)
+            {
+                if (defaultPage == null)
+                {
+                    // check for viewmodel with name "main"
+                    Type foundViewModel = viewModels.SingleOrDefault(v => v.Name.Equals("mainviewmodel", StringComparison.InvariantCultureIgnoreCase)
+                                                                        || v.Name.Equals("mainpagemodel", StringComparison.InvariantCultureIgnoreCase));
+                    if (foundViewModel != null)
+                        InjectionControl.Navigate(foundViewModel);
+                    else
+                    {
+                        if (pages.ContainsKey("Main"))
+                            InjectionControl.navigationAction?.Invoke((Page)InjectionControl.Resolve(pages["Main"]));
+                    }
+                }
+                else _app.MainPage = defaultPage;
+            }
         }
 
     }

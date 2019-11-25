@@ -1,7 +1,5 @@
-﻿using DevOpsManager.MobileApp.Helpers;
-using DevOpsManager.MobileApp.Services;
+﻿using DevOpsManager.MobileApp.Services;
 using DevOpsManager.MobileApp.ViewModels;
-using FreshMvvm;
 using System;
 using System.Net.Http;
 using Xamarin.Forms;
@@ -15,16 +13,13 @@ namespace DevOpsManager.MobileApp
     {
         public App()
         {
-
-            string done = this.StartInjecting()
-                                .SetViewModelAssembly(typeof(MainViewModel).Assembly)
-                                .AddSingleton<HttpClient>()
-                                .AddSingleton<DevOpsService>()
-                                .Build();   
             InitializeComponent();
-            var page = new MainPage();
-            page.Text = done;
-            MainPage = page;
+
+            this.StartInjecting()
+                    .SetViewModelAssembly(typeof(MainViewModel).Assembly)
+                    .AddSingleton<HttpClient>()
+                    .AddSingleton<DevOpsService>()
+                    .Build();   
         }
 
         protected override void OnStart()
