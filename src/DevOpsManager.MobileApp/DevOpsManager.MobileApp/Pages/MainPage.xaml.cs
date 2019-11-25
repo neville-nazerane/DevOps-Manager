@@ -11,10 +11,8 @@ namespace DevOpsManager.MobileApp.Pages
     // Learn more about making custom code visible in the Xamarin.Forms previewer
     // by visiting https://aka.ms/xamarinforms-previewer
     [DesignTimeVisible(false)]
-    public partial class MainPage : FreshMvvm.FreshBaseContentPage
+    public partial class MainPage : ContentPage
     {
-
-        public string Text { set => lbl.Text = value; }
 
         public MainPage()
         {

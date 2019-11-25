@@ -16,6 +16,7 @@ namespace Xamarin.FluentInjector
             Page = page;
             ViewModel = viewModel;
 
+            Page.BindingContext = ViewModel;
             if (ViewModel is InjectorViewModelBase vm)
                 vm.CurrentPage = page;
         }

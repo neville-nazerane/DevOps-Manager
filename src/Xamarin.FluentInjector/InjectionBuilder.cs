@@ -143,7 +143,7 @@ namespace Xamarin.FluentInjector
                 string name = page.Name;
                 if (name.EndsWith("page", StringComparison.InvariantCultureIgnoreCase) || name.EndsWith("view", StringComparison.InvariantCultureIgnoreCase))
                     name = name.Substring(0, name.Length - 4);
-                if (!pages.ContainsKey(name))
+                if (pages.ContainsKey(name))
                     throw new AmbiguousMatchException($"The page name '{name}' is used more than once.");
                 pages[name] = page;
 

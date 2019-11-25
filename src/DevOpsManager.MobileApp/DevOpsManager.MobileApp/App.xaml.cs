@@ -17,8 +17,8 @@ namespace DevOpsManager.MobileApp
 
             this.StartInjecting()
                     .SetViewModelAssembly(typeof(MainViewModel).Assembly)
-                    .AddSingleton<HttpClient>()
-                    .AddSingleton<DevOpsService>()
+                    //.AddSingleton<HttpClient>()
+                    //.AddSingleton<DevOpsService>()
                     .Build();   
         }
 
