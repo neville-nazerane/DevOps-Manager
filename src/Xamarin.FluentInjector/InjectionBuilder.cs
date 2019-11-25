@@ -14,7 +14,6 @@ namespace Xamarin.FluentInjector
         private readonly ServiceCollection _services;
         private Assembly _pageAssembly;
         private Assembly _viewModelAssembly;
-        private IServiceProvider _provider;
 
         internal InjectionBuilder(Application app)
         {
@@ -102,9 +101,18 @@ namespace Xamarin.FluentInjector
 
             var types = _pageAssembly.GetTypes();
             var filtered = types.Where(t => typeof(Page).IsAssignableFrom(t));
+            Dictionary<string, Type> pages = new Dictionary<string, Type>();
+
             // fetching pages
-            foreach (var page in _pageAssembly.GetTypes().Where(t => typeof(Page).IsAssignableFrom(t)))
+            foreach (Type page in _pageAssembly.GetTypes().Where(t => typeof(Page).IsAssignableFrom(t)))
             {
+                string name = page.Name;
+                if (name.EndsWith("page", StringComparison.InvariantCultureIgnoreCase) || name.EndsWith("view", StringComparison.InvariantCultureIgnoreCase))
+                    name = name.Substring(0, name.Length - 4);
+                if (!pages.ContainsKey(name))
+                    throw new AmbiguousMatchException($"The page name '{name}' is used more than once.");
+                pages[name] = page;
+
                 _services.AddScoped(page);
             }
 
@@ -116,11 +124,21 @@ namespace Xamarin.FluentInjector
                                    .Where(t => t.Name.EndsWith("viewmodel", StringComparison.InvariantCultureIgnoreCase)
                                                || t.Name.EndsWith("pagemodel", StringComparison.InvariantCultureIgnoreCase));
             int count = viewModels.Count();
-            foreach (var vm in viewModels)
+            foreach (Type vm in viewModels)
             {
+                _services.AddScoped(vm);
+
+                string pageName = vm.Name.Substring(0, vm.Name.Length - 9);
+                if (!pages.ContainsKey(pageName))
+                    throw new KeyNotFoundException($"No matching page with name '{pageName}' found for view model ${vm.Name}");
+
+                Type controlService = typeof(IPageControl<>).MakeGenericType(vm);
+                Type controlImplimentation = typeof(PageControl<,>).MakeGenericType(pages[pageName], vm);
+                _services.AddScoped(controlService, controlImplimentation);
 
             }
-            _provider = _services.BuildServiceProvider();
+            InjectionControl._services = _services;
+            InjectionControl._provider = _services.BuildServiceProvider();
             return $"All were {allCount} but found {count} view models which are: {string.Join(",", viewModels.Select(v => v.Name))}";
         }
 
