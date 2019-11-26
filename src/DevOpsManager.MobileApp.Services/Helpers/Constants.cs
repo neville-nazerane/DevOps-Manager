@@ -6,10 +6,12 @@ using Xamarin.Essentials;
 
 namespace DevOpsManager.MobileApp.Services.Helpers
 {
-    class Constants
+    public class Constants
     {
 
-        internal readonly static string DbLocation = Path.Combine(FileSystem.AppDataDirectory, "store.db");
+        public readonly static string DatabaseLocation = Path.Combine(FileSystem.AppDataDirectory, "store.db");
+
+        public const string accountCollectionName = "account";
 
     }
 }

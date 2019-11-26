@@ -4,38 +4,32 @@ using LiteDB;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using static DevOpsManager.MobileApp.Services.Helpers.Constants;
 
 namespace DevOpsManager.MobileApp.Services
 {
     public class AccountService
     {
 
-        const string collectionName = "account";
-        private readonly LocalDataAccess _localDataAccess;
+        //public IEnumerable<Account> Get()
+        //{
+        //    using var db = new LiteDatabase(DbLocation);
+        //    var collection = db.GetCollection<Account>(accountCollectionName);
+        //    return collection.FindAll();
+        //}
 
-        public AccountService(LocalDataAccess localDataAccess)
-        {
-            _localDataAccess = localDataAccess;
-        }
+        //public void Add(Account account)
+        //{
+        //    using var coll = _localDataAccess.GetAccountCollection();
+        //    coll.Collection.Insert(account);
+        //    coll.Collection.EnsureIndex(c => c.Name);
+        //}
 
-        public IEnumerable<Account> Get()
-        {
-            using var collection = _localDataAccess.GetAccountCollection();
-            return collection.Collection.FindAll();
-        }
-
-        public void Add(Account account)
-        {
-            using var coll = _localDataAccess.GetAccountCollection();
-            coll.Collection.Insert(account);
-            coll.Collection.EnsureIndex(c => c.Name);
-        }
-
-        public void Remove(string name)
-        {
-            using var coll = _localDataAccess.GetAccountCollection();
-            coll.Collection.Delete(name);
-        }
+        //public void Remove(string name)
+        //{
+        //    using var coll = _localDataAccess.GetAccountCollection();
+        //    coll.Collection.Delete(name);
+        //}
 
     }
 }

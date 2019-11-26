@@ -6,7 +6,7 @@ using Xamarin.Forms;
 
 namespace Xamarin.FluentInjector
 {
-    public class InjectorViewModelBase
+    public class InjectorViewModelBase : BindableObject
     {
 
         internal Page CurrentPage { get; set; }

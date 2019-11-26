@@ -24,7 +24,9 @@ namespace DevOpsManager.MobileApp
                     .AddSingleton<AccountService>()
                     .AddSingleton<HttpClient>()
                     .AddSingleton<DevOpsService>()
-                    .Build();   
+                    .Build();
+
+            InjectionControl.Navigate<AccountsViewModel>();
         }
 
         private void DbInit()

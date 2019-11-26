@@ -5,18 +5,11 @@ using Xamarin.Forms;
 
 namespace DevOpsManager.MobileApp.ViewModels
 {
-    public class MainViewModel : BindableObject
+    public class MainViewModel : ViewModelBase
     {
-        private string _title = "Hello world";
+        public string Title { get; set; } = "Hello world";
 
-        public string Title
-        {
-            get => _title; 
-            set
-            {
-                _title = value;
-                OnPropertyChanged();
-            }
-        }
+        public Command Move => new Command(() => Navigate<AccountsViewModel>());
+
     }
 }

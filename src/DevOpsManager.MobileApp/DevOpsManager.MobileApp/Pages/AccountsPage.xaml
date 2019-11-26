@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:DevOpsManager.MobileApp.ViewModels;assembly=DevOpsManager.MobileApp.ViewModels"
+             xmlns:m="clr-namespace:DevOpsManager.MobileApp.Models;assembly=DevOpsManager.MobileApp.Models"
+             mc:Ignorable="d"
+             x:DataType="vm:AccountsViewModel"
+             x:Class="DevOpsManager.MobileApp.Pages.AccountsPage">
+
+    <CollectionView ItemsSource="{Binding Accounts}" Footer="{Binding}"> 
+        <CollectionView.EmptyViewTemplate>
+            <DataTemplate>
+                <Label Text="No accounts yet!" TextColor="OrangeRed" />
+            </DataTemplate>
+        </CollectionView.EmptyViewTemplate>
+        <CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="m:Account">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+                    <Label Text="{Binding Name}" TextColor="Blue" />
+                    <Button Text="Delete" 
+                            BackgroundColor="Red"
+                            Grid.Column="1"
+                            CommandParameter="{Binding Name}"
+                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AccountsViewModel}}, Path=DeleteCommand}"/>
+                </Grid>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+
+        <CollectionView.FooterTemplate>
+            <DataTemplate>
+                <Button Text="Add"
+                        Command="{Binding AddCommand}" />
+            </DataTemplate>
+        </CollectionView.FooterTemplate>
+    </CollectionView>
+        
+</ContentPage>

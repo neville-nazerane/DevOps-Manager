@@ -9,9 +9,9 @@
 
     <StackLayout>
         <!-- Place new controls here -->
-        <Label Text="{Binding Title}" 
-           HorizontalOptions="Center"
-           VerticalOptions="CenterAndExpand" />
+        <Label Text="{Binding Title}"  />
+        <Button Text="GOO"
+                Command="{Binding Move}" />
     </StackLayout>
 
 </ContentPage>
