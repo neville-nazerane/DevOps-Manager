@@ -6,6 +6,8 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Xamarin.FluentInjector;
 using DevOpsManager.MobileApp.Pages;
+using LiteDB;
+using DevOpsManager.MobileApp.Models;
 
 namespace DevOpsManager.MobileApp
 {
@@ -15,11 +17,21 @@ namespace DevOpsManager.MobileApp
         {
             InitializeComponent();
 
+            DbInit();
+
             this.StartInjecting()
                     .SetViewModelAssembly(typeof(MainViewModel).Assembly)
-                    //.AddSingleton<HttpClient>()
-                    //.AddSingleton<DevOpsService>()
+                    .AddSingleton<AccountService>()
+                    .AddSingleton<HttpClient>()
+                    .AddSingleton<DevOpsService>()
                     .Build();   
+        }
+
+        private void DbInit()
+        {
+            var mapper = BsonMapper.Global;
+
+            mapper.Entity<Account>().Id(a => a.Name);
         }
 
         protected override void OnStart()
