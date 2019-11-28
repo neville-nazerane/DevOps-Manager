@@ -20,17 +20,28 @@
                 </DataTemplate>
             </sfList:SfListView.ItemTemplate>
             <sfList:SfListView.LeftSwipeTemplate>
-                <DataTemplate>
-                    <Button Text="Edit" 
-                            BackgroundColor="Blue"
-                            Grid.Column="1" />
+                <DataTemplate x:DataType="m:Account">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Button Text="Azure" 
+                                BackgroundColor="LightBlue"
+                                CommandParameter="{Binding Name}"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AccountsViewModel}}, Path=AzureCommand}" />
+                        <Button Text="Update Key" 
+                                BackgroundColor="LightBlue"
+                                Grid.Column="1"
+                                CommandParameter="{Binding}"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AccountsViewModel}}, Path=SetKeyCommand}" />
+                    </Grid>
                 </DataTemplate>
             </sfList:SfListView.LeftSwipeTemplate>
             <sfList:SfListView.RightSwipeTemplate>
-                <DataTemplate>
+                <DataTemplate x:DataType="m:Account">
                     <Button Text="Delete" 
                             BackgroundColor="Red"
-                            Grid.Column="1"
                             CommandParameter="{Binding Name}"
                             Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AccountsViewModel}}, Path=DeleteCommand}"/>
                 </DataTemplate>

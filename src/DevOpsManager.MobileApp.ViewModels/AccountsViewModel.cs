@@ -31,7 +31,7 @@ namespace DevOpsManager.MobileApp.ViewModels
 
         public Command<string> AzureCommand => BuildCommand<string>(GoToAzureAsync);
 
-        
+        public Command<Account> SetKeyCommand => BuildCommand<Account>(SetKeyAsync);
 
         public Command<string> DeleteCommand => new Command<string>(Delete);
 
