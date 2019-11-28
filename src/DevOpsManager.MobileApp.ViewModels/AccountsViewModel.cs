@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.FluentInjector;
 using Xamarin.Forms;
 using static DevOpsManager.MobileApp.Services.Helpers.Constants;
@@ -28,6 +29,10 @@ namespace DevOpsManager.MobileApp.ViewModels
 
         public Command AddCommand => BuildCommand(AddAsync);
 
+        public Command<string> AzureCommand => BuildCommand<string>(GoToAzureAsync);
+
+        
+
         public Command<string> DeleteCommand => new Command<string>(Delete);
 
         public AccountsViewModel()
@@ -49,6 +54,21 @@ namespace DevOpsManager.MobileApp.ViewModels
             var collection = db.GetCollection<Account>();
             collection.Insert(account);
             Accounts.Add(account);
+        }
+
+        public async Task GoToAzureAsync(string name)
+        {
+            await Launcher.OpenAsync($"https://dev.azure.com/{name}/_usersSettings/tokens");
+        }
+
+        public async Task SetKeyAsync(Account account)
+        {
+            string keyToStore = await DisplayPromptAsync("Enter Key", "Ender your key here");
+            account.key = Guid.NewGuid().ToString("N");
+            await SecureStorage.SetAsync(account.key, keyToStore);
+            using var db = new LiteDatabase(DatabaseLocation);
+            var collection = db.GetCollection<Account>();
+            collection.Update(account);
         }
 
         public void Delete(string name)

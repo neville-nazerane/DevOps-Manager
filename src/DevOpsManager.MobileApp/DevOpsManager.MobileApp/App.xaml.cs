@@ -8,6 +8,7 @@ using Xamarin.FluentInjector;
 using DevOpsManager.MobileApp.Pages;
 using LiteDB;
 using DevOpsManager.MobileApp.Models;
+using Syncfusion.Licensing;
 
 namespace DevOpsManager.MobileApp
 {
@@ -17,7 +18,9 @@ namespace DevOpsManager.MobileApp
         {
             InitializeComponent();
 
+            SyncfusionLicenseProvider.RegisterLicense(Config.Syncfusion);
             DbInit();
+
 
             this.StartInjecting()
                     .SetViewModelAssembly(typeof(MainViewModel).Assembly)

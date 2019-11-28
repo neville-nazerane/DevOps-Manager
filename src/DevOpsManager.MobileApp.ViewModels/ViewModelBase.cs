@@ -19,7 +19,7 @@ namespace DevOpsManager.MobileApp.ViewModels
             });
         }
 
-        public Command BuildCommand<T>(Func<T, Task> func)
+        public Command<T> BuildCommand<T>(Func<T, Task> func)
         {
             return new Command<T>(async obj => {
                 IsBusy = true;

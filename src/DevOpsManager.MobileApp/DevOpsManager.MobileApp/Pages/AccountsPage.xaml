@@ -5,11 +5,45 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:DevOpsManager.MobileApp.ViewModels;assembly=DevOpsManager.MobileApp.ViewModels"
              xmlns:m="clr-namespace:DevOpsManager.MobileApp.Models;assembly=DevOpsManager.MobileApp.Models"
+             xmlns:sfList="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
              mc:Ignorable="d"
              x:DataType="vm:AccountsViewModel"
              x:Class="DevOpsManager.MobileApp.Pages.AccountsPage">
 
-    <CollectionView ItemsSource="{Binding Accounts}" Footer="{Binding}"> 
+    <StackLayout>
+
+        <sfList:SfListView ItemsSource="{Binding Accounts}"
+                           AllowSwiping="True" >
+            <sfList:SfListView.ItemTemplate>
+                <DataTemplate x:DataType="m:Account">
+                    <Label HorizontalTextAlignment="Center" Text="{Binding Name}" TextColor="Blue" />
+                </DataTemplate>
+            </sfList:SfListView.ItemTemplate>
+            <sfList:SfListView.LeftSwipeTemplate>
+                <DataTemplate>
+                    <Button Text="Edit" 
+                            BackgroundColor="Blue"
+                            Grid.Column="1" />
+                </DataTemplate>
+            </sfList:SfListView.LeftSwipeTemplate>
+            <sfList:SfListView.RightSwipeTemplate>
+                <DataTemplate>
+                    <Button Text="Delete" 
+                            BackgroundColor="Red"
+                            Grid.Column="1"
+                            CommandParameter="{Binding Name}"
+                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AccountsViewModel}}, Path=DeleteCommand}"/>
+                </DataTemplate>
+            </sfList:SfListView.RightSwipeTemplate>
+            <sfList:SfListView.FooterTemplate>
+                <DataTemplate>
+                    <Button Text="Add"
+                        Command="{Binding AddCommand}" />
+                </DataTemplate>
+            </sfList:SfListView.FooterTemplate>
+        </sfList:SfListView>
+        
+        <!--<CollectionView ItemsSource="{Binding Accounts}" Footer="{Binding}"> 
         <CollectionView.EmptyViewTemplate>
             <DataTemplate>
                 <Label Text="No accounts yet!" TextColor="OrangeRed" />
@@ -38,6 +72,8 @@
                         Command="{Binding AddCommand}" />
             </DataTemplate>
         </CollectionView.FooterTemplate>
-    </CollectionView>
+    </CollectionView>-->
         
+    </StackLayout>
+    
 </ContentPage>
