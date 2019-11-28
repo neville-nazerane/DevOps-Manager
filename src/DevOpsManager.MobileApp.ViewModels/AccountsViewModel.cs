@@ -35,6 +35,8 @@ namespace DevOpsManager.MobileApp.ViewModels
 
         public Command<string> DeleteCommand => new Command<string>(Delete);
 
+        public Command<Account> GoCommand => BuildCommand<Account>(GoToAccountAsync);
+
         public AccountsViewModel()
         {
             using var db = new LiteDatabase(DatabaseLocation);
@@ -45,10 +47,10 @@ namespace DevOpsManager.MobileApp.ViewModels
         public async Task AddAsync()
         {
             string name = await DisplayPromptAsync("Account name", "Provide the name of your account");
+            if (name == null) return;
             var account = new Account
             {
-                Name = name,
-                key = Guid.NewGuid().ToString("N")
+                Name = name.Trim(),
             };
             using var db = new LiteDatabase(DatabaseLocation);
             var collection = db.GetCollection<Account>();
@@ -61,11 +63,20 @@ namespace DevOpsManager.MobileApp.ViewModels
             await Launcher.OpenAsync($"https://dev.azure.com/{name}/_usersSettings/tokens");
         }
 
+        public async Task GoToAccountAsync(Account account)
+        {
+            if (account?.Key == null) return;
+            await DisplayAlert("See!", await SecureStorage.GetAsync(account.Key), "OH SHIT!!");
+        }
+
         public async Task SetKeyAsync(Account account)
         {
             string keyToStore = await DisplayPromptAsync("Enter Key", "Ender your key here");
-            account.key = Guid.NewGuid().ToString("N");
-            await SecureStorage.SetAsync(account.key, keyToStore);
+            if (keyToStore == null) return;
+            if (account.Key != null)
+                SecureStorage.Remove(account.Key);
+            account.Key = Guid.NewGuid().ToString("N");
+            await SecureStorage.SetAsync(account.Key, keyToStore);
             using var db = new LiteDatabase(DatabaseLocation);
             var collection = db.GetCollection<Account>();
             collection.Update(account);

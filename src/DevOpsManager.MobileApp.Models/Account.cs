@@ -9,7 +9,7 @@ namespace DevOpsManager.MobileApp.Models
 
         public string Name { get; set; }
 
-        public string key { get; set; }
+        public string Key { get; set; }
 
     }
 }
