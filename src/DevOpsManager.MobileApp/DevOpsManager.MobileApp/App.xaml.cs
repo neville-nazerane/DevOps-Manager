@@ -25,8 +25,9 @@ namespace DevOpsManager.MobileApp
             this.StartInjecting()
                     .SetViewModelAssembly(typeof(MainViewModel).Assembly)
                     .AddSingleton<AccountService>()
-                    .AddSingleton<HttpClient>()
-                    .AddSingleton<DevOpsService>()
+                    .AddHttpClient<DevOpsService>(c => {
+                        c.BaseAddress = new Uri("https://dev.azure.com");
+                    })
                     .Build();
 
             InjectionControl.Navigate<AccountsViewModel>();

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -52,6 +53,21 @@ namespace Xamarin.FluentInjector
             where TService : class
         {
             _services.AddSingleton<TService>();
+            return this;
+        }
+
+        public InjectionBuilder AddHttpClient<TClient>(Action<HttpClient> action)
+            where TClient : class
+        {
+            _services.AddHttpClient<TClient>(action);
+            return this;
+        }
+
+        public InjectionBuilder AddHttpClient<TClient, TImplementation>(Action<HttpClient> action)
+            where TClient : class
+            where TImplementation : class, TClient
+        {
+            _services.AddHttpClient<TClient, TImplementation>(action);
             return this;
         }
 

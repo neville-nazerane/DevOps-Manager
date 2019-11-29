@@ -13,7 +13,9 @@ namespace DevOpsManager.MobileApp.Services.Helpers
         public static async Task<T> ReadAsync<T>(this HttpResponseMessage response)
         {
             using var stream = await response.Content.ReadAsStreamAsync();
-            return await JsonSerializer.DeserializeAsync<T>(stream);
+            return await JsonSerializer.DeserializeAsync<T>(stream, new JsonSerializerOptions { 
+                PropertyNameCaseInsensitive = true
+            });
         }
 
         public static async Task<HttpResponseMessage> PostAsJsonAsync(this HttpClient client, string url, object data)

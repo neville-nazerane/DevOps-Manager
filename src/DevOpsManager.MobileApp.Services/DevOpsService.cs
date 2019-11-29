@@ -1,9 +1,12 @@
-﻿using System;
+﻿using DevOpsManager.MobileApp.Models;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
+using DevOpsManager.MobileApp.Services.Helpers;
 
 namespace DevOpsManager.MobileApp.Services
 {
@@ -11,12 +14,14 @@ namespace DevOpsManager.MobileApp.Services
     {
         private readonly HttpClient _client;
 
+        private string AccountName => Preferences.Get("org", null);
+
         public DevOpsService(HttpClient client)
         {
             _client = client;
         }
 
-        public async Task AuthroizeAsync(string personalAccessToken)
+        public void Authroize(string personalAccessToken)
         {
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic",
                                                                     Convert.ToBase64String(
@@ -25,12 +30,11 @@ namespace DevOpsManager.MobileApp.Services
             //await SecureStorage.SetAsync("pat", personalAccessToken);
         }
 
-        public async Task<bool> TryRefreshAuthAsync()
+        public async Task<DevOpsListingResponse<Project>> GetProjectsAsync()
         {
-            string token = "";// await SecureStorage.GetAsync("pat");
-            if (string.IsNullOrEmpty(token)) return false;
-            await AuthroizeAsync(token);
-            return true;
+            var result = await _client.GetAsync($"{AccountName}/_apis/projects?api-version=5.1");
+            result.EnsureSuccessStatusCode();
+            return await result.ReadAsync<DevOpsListingResponse<Project>>();
         }
 
     }
