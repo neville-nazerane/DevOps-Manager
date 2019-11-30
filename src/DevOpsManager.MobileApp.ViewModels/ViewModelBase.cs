@@ -28,6 +28,14 @@ namespace DevOpsManager.MobileApp.ViewModels
             });
         }
 
+        public override async Task<Page> NavigateAsync<TViewModel>()
+        {
+            var vm = await base.NavigateAsync<TViewModel>();
+            if (vm.BindingContext is ViewModelBase viewModel) await viewModel.InitAsync();
+            return vm;
+        }
+
+        public virtual Task InitAsync() => Task.CompletedTask;
 
     }
 }

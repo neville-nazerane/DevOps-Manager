@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using DevOpsManager.MobileApp.Services.Helpers;
+using System.Net;
 
 namespace DevOpsManager.MobileApp.Services
 {
@@ -14,7 +15,7 @@ namespace DevOpsManager.MobileApp.Services
     {
         private readonly HttpClient _client;
 
-        private string AccountName => Preferences.Get("org", null);
+        private string Organization => Preferences.Get("org", null);
 
         public DevOpsService(HttpClient client)
         {
@@ -27,15 +28,15 @@ namespace DevOpsManager.MobileApp.Services
                                                                     Convert.ToBase64String(
                                                                         Encoding.ASCII.GetBytes(
                                                                             string.Format("{0}:{1}", "", personalAccessToken))));
-            //await SecureStorage.SetAsync("pat", personalAccessToken);
         }
 
         public async Task<DevOpsListingResponse<Project>> GetProjectsAsync()
         {
-            var result = await _client.GetAsync($"{AccountName}/_apis/projects?api-version=5.1");
+            var result = await _client.GetAsync($"{Organization}/_apis/projects?api-version=5.1");
             result.EnsureSuccessStatusCode();
             return await result.ReadAsync<DevOpsListingResponse<Project>>();
         }
+
 
     }
 }

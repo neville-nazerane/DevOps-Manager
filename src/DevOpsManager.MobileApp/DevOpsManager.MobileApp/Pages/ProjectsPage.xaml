@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:DevOpsManager.MobileApp.ViewModels;assembly=DevOpsManager.MobileApp.ViewModels"
+             xmlns:m="clr-namespace:DevOpsManager.MobileApp.Models;assembly=DevOpsManager.MobileApp.Models"
+             xmlns:sfList="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
+             mc:Ignorable="d"
+             x:DataType="vm:ProjectsViewModel"
+             x:Class="DevOpsManager.MobileApp.Pages.ProjectsPage">
+
+    <StackLayout>
+        <sfList:SfListView ItemsSource="{Binding Projects}" 
+                           ItemSize="100" >
+            <sfList:SfListView.ItemTemplate>
+                <DataTemplate x:DataType="m:Project">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="auto" />
+                        </Grid.ColumnDefinitions>
+                        <Label Text="{Binding Name}"
+                                FontAttributes="Bold"
+                                HorizontalTextAlignment="Center"
+                                FontSize="Title"
+                                Grid.ColumnSpan="2" />
+                        <Label Text="{Binding Description}"
+                                FontSize="Body"
+                                Grid.Row="1" />
+                        <Button Text="Go"
+                                BackgroundColor="Green"
+                                Grid.Row="1" Grid.Column="1" />
+                    </Grid>
+                </DataTemplate>
+            </sfList:SfListView.ItemTemplate>
+        </sfList:SfListView>
+    </StackLayout>
+    
+</ContentPage>

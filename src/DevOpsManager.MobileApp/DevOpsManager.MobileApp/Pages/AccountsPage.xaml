@@ -10,11 +10,16 @@
              mc:Ignorable="d"
              x:DataType="vm:AccountsViewModel"
              x:Class="DevOpsManager.MobileApp.Pages.AccountsPage">
-
     <StackLayout>
 
         <sfList:SfListView ItemsSource="{Binding Accounts}"
                            AllowSwiping="True" >
+            <sfList:SfListView.HeaderTemplate>
+                <DataTemplate>
+                    <Label Text="Your organizations"
+                           FontSize="Title" />
+                </DataTemplate>
+            </sfList:SfListView.HeaderTemplate>
             <sfList:SfListView.ItemTemplate>
                 <DataTemplate x:DataType="m:Account">
                     <Label HorizontalTextAlignment="Center" 

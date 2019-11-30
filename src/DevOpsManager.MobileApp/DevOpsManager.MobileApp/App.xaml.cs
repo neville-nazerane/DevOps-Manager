@@ -9,6 +9,7 @@ using DevOpsManager.MobileApp.Pages;
 using LiteDB;
 using DevOpsManager.MobileApp.Models;
 using Syncfusion.Licensing;
+using System.Threading.Tasks;
 
 namespace DevOpsManager.MobileApp
 {
@@ -24,10 +25,11 @@ namespace DevOpsManager.MobileApp
 
             this.StartInjecting()
                     .SetViewModelAssembly(typeof(MainViewModel).Assembly)
-                    .AddSingleton<AccountService>()
-                    .AddHttpClient<DevOpsService>(c => {
-                        c.BaseAddress = new Uri("https://dev.azure.com");
+                    .OverrideAsyncNavigate(OnNavigateAsync)
+                    .AddSingleton(new HttpClient {
+                        BaseAddress = new Uri("https://dev.azure.com")
                     })
+                    .AddSingleton<DevOpsService>()
                     .Build();
 
             InjectionControl.Navigate<AccountsViewModel>();
@@ -38,6 +40,13 @@ namespace DevOpsManager.MobileApp
             var mapper = BsonMapper.Global;
 
             mapper.Entity<Account>().Id(a => a.Name);
+        }
+
+        private async Task OnNavigateAsync(Page page)
+        {
+            if (page.BindingContext is ViewModelBase vm)
+                await vm.InitAsync();
+            MainPage = page;
         }
 
         protected override void OnStart()

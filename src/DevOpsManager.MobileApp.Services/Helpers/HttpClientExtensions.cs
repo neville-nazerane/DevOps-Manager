@@ -12,6 +12,7 @@ namespace DevOpsManager.MobileApp.Services.Helpers
 
         public static async Task<T> ReadAsync<T>(this HttpResponseMessage response)
         {
+            string str = await response.Content.ReadAsStringAsync();
             using var stream = await response.Content.ReadAsStreamAsync();
             return await JsonSerializer.DeserializeAsync<T>(stream, new JsonSerializerOptions { 
                 PropertyNameCaseInsensitive = true

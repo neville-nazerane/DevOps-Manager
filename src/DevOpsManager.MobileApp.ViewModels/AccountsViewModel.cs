@@ -71,9 +71,7 @@ namespace DevOpsManager.MobileApp.ViewModels
             if (account?.Key == null) return;
             _devOpsService.Authroize(await SecureStorage.GetAsync(account.Key));
             Preferences.Set("org", account.Name);
-            var result = await _devOpsService.GetProjectsAsync();
-            var projects = (result).Value;
-            await DisplayAlert($"{projects.Count()} projects found!", string.Join(",", projects.Select(p => p.Name)), "WHY DID YOU SAY THAT NAME???");
+            await NavigateAsync<ProjectsViewModel>();
         }
 
         public async Task SetKeyAsync(Account account)
