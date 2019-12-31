@@ -29,6 +29,7 @@ namespace DevOpsManager.MobileApp
                     .AddSingleton(new HttpClient {
                         BaseAddress = new Uri("https://dev.azure.com")
                     })
+                    .AddSingleton<PersistantState>()
                     .AddSingleton<DevOpsService>()
                     .Build();
 

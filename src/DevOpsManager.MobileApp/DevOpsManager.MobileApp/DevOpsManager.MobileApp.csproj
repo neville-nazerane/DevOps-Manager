@@ -9,6 +9,8 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.0.1" />
     <PackageReference Include="Syncfusion.Licensing" Version="17.3.0.29" />
+    <PackageReference Include="Syncfusion.Xamarin.Cards" Version="17.3.0.29" />
+    <PackageReference Include="Syncfusion.Xamarin.SfCarousel" Version="17.3.0.29" />
     <PackageReference Include="Syncfusion.Xamarin.SfListView" Version="17.3.0.29" />
     <PackageReference Include="Syncfusion.Xamarin.SfTreeView" Version="17.3.0.29" />
     <PackageReference Include="Xamarin.Forms" Version="4.3.0.991211" />
@@ -23,7 +25,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Pages\PipelinesPage.xaml.cs">
+      <DependentUpon>PipelinesPage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Update="Pages\AccountsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\PipelinesPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Pages\ProjectsPage.xaml">

@@ -18,6 +18,7 @@ namespace DevOpsManager.MobileApp.ViewModels
     {
         private ObservableCollection<Account> _accounts;
         private readonly DevOpsService _devOpsService;
+        private readonly PersistantState _persistantState;
 
         public ObservableCollection<Account> Accounts
         {
@@ -39,12 +40,13 @@ namespace DevOpsManager.MobileApp.ViewModels
 
         public Command<Account> GoCommand => BuildCommand<Account>(GoToAccountAsync);
 
-        public AccountsViewModel(DevOpsService devOpsService)
+        public AccountsViewModel(DevOpsService devOpsService, PersistantState persistantState)
         {
             using var db = new LiteDatabase(DatabaseLocation);
             var collection = db.GetCollection<Account>();
             Accounts = new ObservableCollection<Account>(collection.FindAll());
             _devOpsService = devOpsService;
+            _persistantState = persistantState;
         }
 
         public async Task AddAsync()
@@ -70,7 +72,7 @@ namespace DevOpsManager.MobileApp.ViewModels
         {
             if (account?.Key == null) return;
             _devOpsService.Authroize(await SecureStorage.GetAsync(account.Key));
-            Preferences.Set("org", account.Name);
+            _persistantState.Organization = account.Name;
             await NavigateAsync<ProjectsViewModel>();
         }
 

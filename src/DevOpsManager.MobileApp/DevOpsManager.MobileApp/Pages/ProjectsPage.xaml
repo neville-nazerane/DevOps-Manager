@@ -34,10 +34,18 @@
                                 Grid.Row="1" />
                         <Button Text="Go"
                                 BackgroundColor="Green"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ProjectsViewModel}}, Path=ToPipelineCommand}"
+                                CommandParameter="{Binding}"
                                 Grid.Row="1" Grid.Column="1" />
                     </Grid>
                 </DataTemplate>
             </sfList:SfListView.ItemTemplate>
+            <sfList:SfListView.FooterTemplate>
+                <DataTemplate>
+                    <Button Text="Change organization" 
+                            Command="{Binding ChangeOrgCommand}" />
+                </DataTemplate>
+            </sfList:SfListView.FooterTemplate>
         </sfList:SfListView>
     </StackLayout>
     

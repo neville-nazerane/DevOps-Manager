@@ -14,12 +14,12 @@ namespace DevOpsManager.MobileApp.Services
     public class DevOpsService
     {
         private readonly HttpClient _client;
+        private readonly PersistantState _persistantState;
 
-        private string Organization => Preferences.Get("org", null);
-
-        public DevOpsService(HttpClient client)
+        public DevOpsService(HttpClient client, PersistantState persistantState)
         {
             _client = client;
+            _persistantState = persistantState;
         }
 
         public void Authroize(string personalAccessToken)
@@ -30,13 +30,31 @@ namespace DevOpsManager.MobileApp.Services
                                                                             string.Format("{0}:{1}", "", personalAccessToken))));
         }
 
-        public async Task<DevOpsListingResponse<Project>> GetProjectsAsync()
+        public async Task<DevOpsListingResponse<Project>> GetProjectsAsync() => await GetProjectsAsync(_persistantState.Organization);
+
+        public async Task<DevOpsListingResponse<Project>> GetProjectsAsync(string organization)
         {
-            var result = await _client.GetAsync($"{Organization}/_apis/projects?api-version=5.1");
+            var result = await _client.GetAsync($"{organization}/_apis/projects?api-version=5.1");
             result.EnsureSuccessStatusCode();
             return await result.ReadAsync<DevOpsListingResponse<Project>>();
         }
 
+        public async Task<DevOpsListingResponse<ReleaseDefinition>> GetReleaseDefinitionsAsync() => await GetReleaseDefinitionsAsync(_persistantState.Organization, _persistantState.Project);
+        
+        public async Task<DevOpsListingResponse<ReleaseDefinition>> GetReleaseDefinitionsAsync(string organization, string project)
+        {
+            var result = await _client.GetAsync($"https://vsrm.dev.azure.com/{organization}/{project}/_apis/release/definitions?api-version=5.1");
+            result.EnsureSuccessStatusCode();
+            return await result.ReadAsync<DevOpsListingResponse<ReleaseDefinition>>();
+        }
 
+        public async Task<DevOpsListingResponse<Release>> GetReleasesAsync(string definitionId)
+            => await GetReleasesAsync(_persistantState.Organization, _persistantState.Project, definitionId);
+        public async Task<DevOpsListingResponse<Release>> GetReleasesAsync(string organization, string project, string definitionId)
+        {
+            var result = await _client.GetAsync($"https://vsrm.dev.azure.com/{organization}/{project}/_apis/release/releases?definitionId={definitionId}&api-version=5.1");
+            result.EnsureSuccessStatusCode();
+            return await result.ReadAsync<DevOpsListingResponse<Release>>();
+        }
     }
 }
