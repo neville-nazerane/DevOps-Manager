@@ -20,7 +20,7 @@ namespace DevOpsManager.MobileApp.Droid
 
             base.OnCreate(savedInstanceState);
 
-            Forms.SetFlags("SwipeView_Experimental");
+            Forms.SetFlags("SwipeView_Experimental", "CarouselView_Experimental");
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());

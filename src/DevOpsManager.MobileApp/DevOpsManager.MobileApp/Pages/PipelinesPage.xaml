@@ -12,12 +12,35 @@
              x:DataType="vm:PipelinesViewModel"
              x:Class="DevOpsManager.MobileApp.Pages.PipelinesPage">
 
-    <Grid>
+    <Grid Margin="0, 25, 0, 0">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
+            <RowDefinition Height="400" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
-        <sfCarousel:SfCarousel ItemsSource="{Binding ReleaseDefinitions}">
+        <CarouselView ItemsSource="{Binding ReleaseDefinitions}" 
+                      PeekAreaInsets="30" >
+            <CarouselView.ItemsLayout>
+                <LinearItemsLayout Orientation="Horizontal" ItemSpacing="8" />
+            </CarouselView.ItemsLayout>
+            <CarouselView.ItemTemplate>
+                <DataTemplate x:DataType="m:ReleaseDefinition">
+                    <Frame  HasShadow="True"
+                           BorderColor="DarkGray"
+                           CornerRadius="15"
+                           HeightRequest="300">
+                        <Grid>
+                            <Label Text="{Binding Name}" 
+                               FontSize="Title" />
+                            <Label Text="{Binding Description}"
+                                   FontSize="Body" 
+                                   Grid.Row="1" />
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CarouselView.ItemTemplate>
+        </CarouselView>
+
+        <!--<sfCarousel:SfCarousel ItemsSource="{Binding ReleaseDefinitions}">
             <sfCarousel:SfCarousel.ItemTemplate>
                 <DataTemplate x:DataType="m:ReleaseDefinition">
                     <sfCard:SfCardView>
@@ -27,12 +50,11 @@
                             <Label Text="{Binding Description}"
                                    FontSize="Body" 
                                    Grid.Row="1" />
-                            
                         </Grid>
                     </sfCard:SfCardView>
                 </DataTemplate>
             </sfCarousel:SfCarousel.ItemTemplate>
-        </sfCarousel:SfCarousel>
+        </sfCarousel:SfCarousel>-->
         <Button Text="Change Project"
                 Command="{Binding ToProjectsCommand}"
                 Grid.Row="1" />
