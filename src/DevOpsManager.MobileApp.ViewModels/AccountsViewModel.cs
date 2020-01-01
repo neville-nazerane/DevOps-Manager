@@ -49,6 +49,16 @@ namespace DevOpsManager.MobileApp.ViewModels
             _persistantState = persistantState;
         }
 
+        public override Task InitAsync()
+        {
+            if (!string.IsNullOrEmpty(_persistantState.Organization))
+            {
+                var foundAccount = Accounts.SingleOrDefault(a => a.Name == _persistantState.Organization);
+                return GoToAccountAsync(foundAccount);
+            }
+            return base.InitAsync();
+        }
+
         public async Task AddAsync()
         {
             string name = await DisplayPromptAsync("Account name", "Provide the name of your account");

@@ -33,7 +33,6 @@ namespace DevOpsManager.MobileApp
                     .AddSingleton<DevOpsService>()
                     .Build();
 
-            InjectionControl.Navigate<AccountsViewModel>();
         }
 
         private void DbInit()
@@ -45,14 +44,15 @@ namespace DevOpsManager.MobileApp
 
         private async Task OnNavigateAsync(Page page)
         {
+            MainPage = new NavigationPage(page);
             if (page.BindingContext is ViewModelBase vm)
                 await vm.InitAsync();
-            MainPage = page;
         }
 
-        protected override void OnStart()
+        protected async override void OnStart()
         {
-            
+            await InjectionControl.NavigateAsync<AccountsViewModel>();
+
             // Handle when your app starts
         }
 

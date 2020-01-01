@@ -18,7 +18,7 @@ namespace DevOpsManager.MobileApp.ViewModels
         private readonly PersistantState _persistantState;
         private ObservableCollection<Project> _projects;
 
-        public Command ChangeOrgCommand => BuildCommand(NavigateAsync<AccountsViewModel>);
+        public Command ChangeOrgCommand => BuildCommand(ChangeOrgAsync);
 
         public Command<Project> ToPipelineCommand => BuildCommand<Project>(GoToPipelinesAsync);
 
@@ -38,15 +38,26 @@ namespace DevOpsManager.MobileApp.ViewModels
             _persistantState = persistantState;
         }
 
-        public override async Task InitAsync()
+        private Task ChangeOrgAsync()
         {
-            Projects = await _devOpsService.GetProjectsAsync();
+            _persistantState.Organization = null;
+            return NavigateAsync<AccountsViewModel>();
         }
 
-        private async Task GoToPipelinesAsync(Project project)
+        public override async Task InitAsync()
         {
-            _persistantState.Project = project.Id;
-            await NavigateAsync<PipelinesViewModel>();
+            if (!string.IsNullOrEmpty(_persistantState.Project))
+                await GoToPipelinesAsync(_persistantState.Project);
+            else
+                Projects = await _devOpsService.GetProjectsAsync();
+        }
+
+        private Task GoToPipelinesAsync(Project project) => GoToPipelinesAsync(project.Id);
+
+        private Task GoToPipelinesAsync(string projectId)
+        {
+            _persistantState.Project = projectId;
+            return NavigateAsync<PipelinesViewModel>();
         }
 
     }

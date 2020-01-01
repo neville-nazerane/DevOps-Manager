@@ -16,7 +16,7 @@ namespace DevOpsManager.MobileApp.ViewModels
         private readonly PersistantState _persistantState;
         private ObservableCollection<ReleaseDefinition> _releaseDefinitions;
 
-        public Command ToProjectsCommand => BuildCommand(NavigateAsync<ProjectsViewModel>);
+        public Command ToProjectsCommand => BuildCommand(ToProjectAsync);
         public Command<ReleaseDefinition> LoadReleaseCommand => BuildCommand<ReleaseDefinition>(LoadReleasesAsync);
 
         public ObservableCollection<ReleaseDefinition> ReleaseDefinitions
@@ -38,6 +38,12 @@ namespace DevOpsManager.MobileApp.ViewModels
         public override async Task InitAsync()
         {
             ReleaseDefinitions = await _devOpsService.GetReleaseDefinitionsAsync();
+        }
+
+        private Task ToProjectAsync()
+        {
+            _persistantState.Project = null;
+            return NavigateAsync<ProjectsViewModel>();
         }
 
         private async Task LoadReleasesAsync(ReleaseDefinition definition)

@@ -39,7 +39,8 @@ namespace DevOpsManager.MobileApp.Services
             return await result.ReadAsync<DevOpsListingResponse<Project>>();
         }
 
-        public async Task<DevOpsListingResponse<ReleaseDefinition>> GetReleaseDefinitionsAsync() => await GetReleaseDefinitionsAsync(_persistantState.Organization, _persistantState.Project);
+        public async Task<DevOpsListingResponse<ReleaseDefinition>> GetReleaseDefinitionsAsync()
+            => await GetReleaseDefinitionsAsync(_persistantState.Organization, _persistantState.Project);
         
         public async Task<DevOpsListingResponse<ReleaseDefinition>> GetReleaseDefinitionsAsync(string organization, string project)
         {
