@@ -2,15 +2,125 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:ext="clr-namespace:DevOpsManager.MobileApp.Extensions"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:DevOpsManager.MobileApp.ViewModels;assembly=DevOpsManager.MobileApp.ViewModels"
              xmlns:m="clr-namespace:DevOpsManager.MobileApp.Models;assembly=DevOpsManager.MobileApp.Models"
-             xmlns:sfList="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
              xmlns:conv="clr-namespace:DevOpsManager.MobileApp.Converters"
              mc:Ignorable="d"
              x:DataType="vm:AccountsViewModel"
              x:Class="DevOpsManager.MobileApp.Pages.AccountsPage">
-    <StackLayout>
+
+    <ContentPage.Resources>
+        <conv:StringToValidColor x:Key="toColor" />
+    </ContentPage.Resources>
+
+    <CollectionView ItemsSource="{Binding Accounts}" 
+                    Header="{Binding}"
+                    Footer="{Binding}"
+                    Margin="5, 20, 0, 0">
+        <CollectionView.EmptyViewTemplate>
+            <DataTemplate>
+                <Label Text="No accounts yet!" TextColor="OrangeRed" />
+            </DataTemplate>
+        </CollectionView.EmptyViewTemplate>
+
+        <CollectionView.HeaderTemplate>
+            <DataTemplate>
+                <Label Text="Your Accounts"
+                       FontAttributes="Bold"
+                       HorizontalTextAlignment="Center"
+                       FontSize="Title" />
+            </DataTemplate>
+        </CollectionView.HeaderTemplate>
+        
+        <CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="m:Account">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="40" />
+                    </Grid.RowDefinitions>
+                    <Label Text="{Binding Name}" 
+                                   VerticalTextAlignment="Center"
+                                   FontSize="Large"
+                                   Padding="0"
+                                   Margin="20, 0, 0, 0"
+                                   LineBreakMode="NoWrap"
+                                   Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
+                                   TextColor="{Binding Name, Converter={StaticResource Key=toColor}}" >
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer CommandParameter="{Binding}"
+                                                  Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AccountsViewModel}}, Path=GoCommand}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <Button ImageSource="{ext:ImageResource 'globe.png'}"
+                            Text="Get PAT"
+                            CommandParameter="{Binding Name}"
+                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AccountsViewModel}}, Path=AzureCommand}"
+                            Grid.Row="1" Grid.Column="0" />
+                    <Button ImageSource="{ext:ImageResource 'key.png'}"
+                            Text="PAT"
+                            CommandParameter="{Binding}"
+                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AccountsViewModel}}, Path=SetKeyCommand}" 
+                            Grid.Row="1" Grid.Column="1" />
+                    <Button ImageSource="{ext:ImageResource 'delete.png'}"
+                            Text="Delete"
+                            Visual="Material"
+                            CommandParameter="{Binding Name}"
+                            Command="{Binding DeleteCommand, Source={RelativeSource AncestorType={x:Type vm:AccountsViewModel}}}"
+                            Grid.Row="1" Grid.Column="2" />
+                    <!--<Grid.GestureRecognizers>
+                        <TapGestureRecognizer
+                                             CommandParameter="{Binding}"
+                                             Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AccountsViewModel}}, Path=GoCommand}" />
+                    </Grid.GestureRecognizers>-->
+                </Grid>
+                <!--<SwipeView>
+                    <SwipeView.LeftItems>
+                        <SwipeItems SwipeBehaviorOnInvoked="RemainOpen">
+                            <SwipeItem
+                                    IconImageSource="{ext:ImageResource 'key.png'}"
+                                    BackgroundColor="LightBlue"
+                                    Invoked="SwipeItem_Invoked"
+                                    CommandParameter="{Binding Name}"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AccountsViewModel}}, Path=AzureCommand}" />
+                            <SwipeItem
+                                IconImageSource="{ext:ImageResource 'globe.png'}"
+                                BackgroundColor="LightBlue"
+                                CommandParameter="{Binding}"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AccountsViewModel}}, Path=SetKeyCommand}" />
+                        </SwipeItems>
+                    </SwipeView.LeftItems>
+                    <SwipeView.RightItems>
+                        <SwipeItems Mode="Execute">
+                            <SwipeItem
+                                Text="Delete"
+                                BackgroundColor="Red"
+                                IconImageSource="{ext:ImageResource Source='delete.png'}"
+                                CommandParameter="{Binding Name}"
+                                Command="{Binding DeleteCommand, Source={RelativeSource AncestorType={x:Type vm:AccountsViewModel}}}" />
+                        </SwipeItems>
+                    </SwipeView.RightItems>
+
+                </SwipeView>-->
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+
+        <CollectionView.FooterTemplate>
+            <DataTemplate>
+                <Button Text="Add"
+                        Command="{Binding AddCommand}" />
+            </DataTemplate>
+        </CollectionView.FooterTemplate>
+    </CollectionView>
+
+    <!--<StackLayout>
 
         <sfList:SfListView ItemsSource="{Binding Accounts}"
                            AllowSwiping="True" >
@@ -67,37 +177,8 @@
             </sfList:SfListView.FooterTemplate>
         </sfList:SfListView>
         
-        <!--<CollectionView ItemsSource="{Binding Accounts}" Footer="{Binding}"> 
-        <CollectionView.EmptyViewTemplate>
-            <DataTemplate>
-                <Label Text="No accounts yet!" TextColor="OrangeRed" />
-            </DataTemplate>
-        </CollectionView.EmptyViewTemplate>
-        <CollectionView.ItemTemplate>
-            <DataTemplate x:DataType="m:Account">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="auto" />
-                    </Grid.ColumnDefinitions>
-                    <Label Text="{Binding Name}" TextColor="Blue" />
-                    <Button Text="Delete" 
-                            BackgroundColor="Red"
-                            Grid.Column="1"
-                            CommandParameter="{Binding Name}"
-                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AccountsViewModel}}, Path=DeleteCommand}"/>
-                </Grid>
-            </DataTemplate>
-        </CollectionView.ItemTemplate>
 
-        <CollectionView.FooterTemplate>
-            <DataTemplate>
-                <Button Text="Add"
-                        Command="{Binding AddCommand}" />
-            </DataTemplate>
-        </CollectionView.FooterTemplate>
-    </CollectionView>-->
         
-    </StackLayout>
+    </StackLayout>-->
     
 </ContentPage>

@@ -16,5 +16,6 @@ namespace DevOpsManager.MobileApp.Pages
         {
             InitializeComponent();
         }
+
     }
 }
