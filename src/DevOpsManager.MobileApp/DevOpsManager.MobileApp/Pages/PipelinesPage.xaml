@@ -5,9 +5,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:DevOpsManager.MobileApp.ViewModels;assembly=DevOpsManager.MobileApp.ViewModels"
              xmlns:m="clr-namespace:DevOpsManager.MobileApp.Models;assembly=DevOpsManager.MobileApp.Models"
-             xmlns:sfCarousel="clr-namespace:Syncfusion.SfCarousel.XForms;assembly=Syncfusion.SfCarousel.XForms"
-             xmlns:sfCard="clr-namespace:Syncfusion.XForms.Cards;assembly=Syncfusion.Cards.XForms"
-             xmlns:comp="clr-namespace:DevOpsManager.MobileApp.Components"
              mc:Ignorable="d"
              x:DataType="vm:PipelinesViewModel"
              x:Class="DevOpsManager.MobileApp.Pages.PipelinesPage">
@@ -17,6 +14,7 @@
             <RowDefinition Height="400" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
+
         <CarouselView ItemsSource="{Binding ReleaseDefinitions}" 
                       PeekAreaInsets="30" >
             <CarouselView.ItemsLayout>
@@ -39,23 +37,8 @@
                 </DataTemplate>
             </CarouselView.ItemTemplate>
         </CarouselView>
-
-        <!--<sfCarousel:SfCarousel ItemsSource="{Binding ReleaseDefinitions}">
-            <sfCarousel:SfCarousel.ItemTemplate>
-                <DataTemplate x:DataType="m:ReleaseDefinition">
-                    <sfCard:SfCardView>
-                        <Grid>
-                            <Label Text="{Binding Name}" 
-                               FontSize="Title" />
-                            <Label Text="{Binding Description}"
-                                   FontSize="Body" 
-                                   Grid.Row="1" />
-                        </Grid>
-                    </sfCard:SfCardView>
-                </DataTemplate>
-            </sfCarousel:SfCarousel.ItemTemplate>
-        </sfCarousel:SfCarousel>-->
         <Button Text="Change Project"
+                Style="{StaticResource footerButton}"
                 Command="{Binding ToProjectsCommand}"
                 Grid.Row="1" />
     </Grid>

@@ -33,7 +33,7 @@
                        FontSize="Title" />
             </DataTemplate>
         </CollectionView.HeaderTemplate>
-        
+
         <CollectionView.ItemTemplate>
             <DataTemplate x:DataType="m:Account">
                 <Grid>
@@ -75,110 +75,18 @@
                             CommandParameter="{Binding Name}"
                             Command="{Binding DeleteCommand, Source={RelativeSource AncestorType={x:Type vm:AccountsViewModel}}}"
                             Grid.Row="1" Grid.Column="2" />
-                    <!--<Grid.GestureRecognizers>
-                        <TapGestureRecognizer
-                                             CommandParameter="{Binding}"
-                                             Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AccountsViewModel}}, Path=GoCommand}" />
-                    </Grid.GestureRecognizers>-->
                 </Grid>
-                <!--<SwipeView>
-                    <SwipeView.LeftItems>
-                        <SwipeItems SwipeBehaviorOnInvoked="RemainOpen">
-                            <SwipeItem
-                                    IconImageSource="{ext:ImageResource 'key.png'}"
-                                    BackgroundColor="LightBlue"
-                                    Invoked="SwipeItem_Invoked"
-                                    CommandParameter="{Binding Name}"
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AccountsViewModel}}, Path=AzureCommand}" />
-                            <SwipeItem
-                                IconImageSource="{ext:ImageResource 'globe.png'}"
-                                BackgroundColor="LightBlue"
-                                CommandParameter="{Binding}"
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AccountsViewModel}}, Path=SetKeyCommand}" />
-                        </SwipeItems>
-                    </SwipeView.LeftItems>
-                    <SwipeView.RightItems>
-                        <SwipeItems Mode="Execute">
-                            <SwipeItem
-                                Text="Delete"
-                                BackgroundColor="Red"
-                                IconImageSource="{ext:ImageResource Source='delete.png'}"
-                                CommandParameter="{Binding Name}"
-                                Command="{Binding DeleteCommand, Source={RelativeSource AncestorType={x:Type vm:AccountsViewModel}}}" />
-                        </SwipeItems>
-                    </SwipeView.RightItems>
-
-                </SwipeView>-->
             </DataTemplate>
         </CollectionView.ItemTemplate>
 
         <CollectionView.FooterTemplate>
             <DataTemplate>
-                <Button Text="Add"
-                        Command="{Binding AddCommand}" />
+                <Grid>
+                    <Button Text="Add"
+                            Style="{StaticResource footerButton}"
+                            Command="{Binding AddCommand}" />
+                </Grid>
             </DataTemplate>
         </CollectionView.FooterTemplate>
     </CollectionView>
-
-    <!--<StackLayout>
-
-        <sfList:SfListView ItemsSource="{Binding Accounts}"
-                           AllowSwiping="True" >
-            <sfList:SfListView.HeaderTemplate>
-                <DataTemplate>
-                    <Label Text="Your organizations"
-                           FontSize="Title" />
-                </DataTemplate>
-            </sfList:SfListView.HeaderTemplate>
-            <sfList:SfListView.ItemTemplate>
-                <DataTemplate x:DataType="m:Account">
-                    <Label HorizontalTextAlignment="Center" 
-                           Text="{Binding Name}" 
-                           TextColor="{Binding Key, Converter={conv:StringToValidColor}}" >
-                        <Label.GestureRecognizers>
-                            <TapGestureRecognizer CommandParameter="{Binding}"
-                                                  Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AccountsViewModel}}, Path=GoCommand}" />
-                        </Label.GestureRecognizers>
-                    </Label>
-                </DataTemplate>
-            </sfList:SfListView.ItemTemplate>
-            <sfList:SfListView.LeftSwipeTemplate>
-                <DataTemplate x:DataType="m:Account">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Button Text="Azure" 
-                                BackgroundColor="LightBlue"
-                                CommandParameter="{Binding Name}"
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AccountsViewModel}}, Path=AzureCommand}" />
-                        <Button Text="Update Key" 
-                                BackgroundColor="LightBlue"
-                                Grid.Column="1"
-                                CommandParameter="{Binding}"
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AccountsViewModel}}, Path=SetKeyCommand}" />
-                    </Grid>
-                </DataTemplate>
-            </sfList:SfListView.LeftSwipeTemplate>
-            <sfList:SfListView.RightSwipeTemplate>
-                <DataTemplate x:DataType="m:Account">
-                    <Button Text="Delete" 
-                            BackgroundColor="Red"
-                            CommandParameter="{Binding Name}"
-                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AccountsViewModel}}, Path=DeleteCommand}"/>
-                </DataTemplate>
-            </sfList:SfListView.RightSwipeTemplate>
-            <sfList:SfListView.FooterTemplate>
-                <DataTemplate>
-                    <Button Text="Add"
-                        Command="{Binding AddCommand}" />
-                </DataTemplate>
-            </sfList:SfListView.FooterTemplate>
-        </sfList:SfListView>
-        
-
-        
-    </StackLayout>-->
-    
 </ContentPage>

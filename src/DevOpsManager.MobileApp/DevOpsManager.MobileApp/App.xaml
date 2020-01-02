@@ -6,6 +6,12 @@
              mc:Ignorable="d"
              x:Class="DevOpsManager.MobileApp.App">
     <Application.Resources>
-
+        <Style TargetType="Button">
+            <Setter Property="Visual" Value="Material" />
+        </Style>
+        
+        <Style TargetType="Button" x:Key="footerButton">
+            <Setter Property="Margin" Value="40, 30" />
+        </Style>
     </Application.Resources>
 </Application>

@@ -5,12 +5,51 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:DevOpsManager.MobileApp.ViewModels;assembly=DevOpsManager.MobileApp.ViewModels"
              xmlns:m="clr-namespace:DevOpsManager.MobileApp.Models;assembly=DevOpsManager.MobileApp.Models"
-             xmlns:sfList="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
              mc:Ignorable="d"
              x:DataType="vm:ProjectsViewModel"
              x:Class="DevOpsManager.MobileApp.Pages.ProjectsPage">
 
-    <StackLayout>
+    <CollectionView ItemsSource="{Binding Projects}"
+                    Footer="{Binding}" >
+        <CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="m:Project">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+                    <Label Text="{Binding Name}"
+                                FontAttributes="Bold"
+                                HorizontalTextAlignment="Center"
+                                FontSize="Title"
+                                Grid.ColumnSpan="2" />
+                    <Label Text="{Binding Description}"
+                                FontSize="Body"
+                                Grid.Row="1" />
+                    <Button Text="Go"
+                                BackgroundColor="Green"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ProjectsViewModel}}, Path=ToPipelineCommand}"
+                                CommandParameter="{Binding}"
+                                Grid.Row="1" Grid.Column="1" />
+                </Grid>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+        <CollectionView.FooterTemplate>
+            <DataTemplate>
+                <Grid>
+                    <Button Text="Change organization" 
+                            Style="{StaticResource footerButton}"
+                            Command="{Binding ChangeOrgCommand}" />
+                </Grid>
+            </DataTemplate>
+        </CollectionView.FooterTemplate>
+    </CollectionView>
+    
+    <!--<StackLayout>
         <sfList:SfListView ItemsSource="{Binding Projects}" 
                            ItemSize="100" >
             <sfList:SfListView.ItemTemplate>
@@ -47,6 +86,6 @@
                 </DataTemplate>
             </sfList:SfListView.FooterTemplate>
         </sfList:SfListView>
-    </StackLayout>
+    </StackLayout>-->
     
 </ContentPage>
