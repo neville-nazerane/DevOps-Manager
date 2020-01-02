@@ -46,7 +46,11 @@ namespace DevOpsManager.MobileApp
         {
             MainPage = new NavigationPage(page);
             if (page.BindingContext is ViewModelBase vm)
+            {
+                vm.IsLoading = true;
                 await vm.InitAsync();
+                vm.IsLoading = false;
+            }
         }
 
         protected async override void OnStart()

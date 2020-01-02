@@ -10,14 +10,15 @@ using Xamarin.Forms;
 
 namespace DevOpsManager.MobileApp.Droid
 {
-    [Activity(Label = "DevOpsManager.MobileApp", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(Label = "DevOpsManager.MobileApp", Icon = "@mipmap/icon", Theme = "@style/MyTheme.Splash", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
+
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
-
+            SetTheme(Resource.Style.MainTheme);
             base.OnCreate(savedInstanceState);
 
             Forms.SetFlags("SwipeView_Experimental", "CarouselView_Experimental");

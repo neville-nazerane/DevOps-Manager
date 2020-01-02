@@ -1,11 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Application xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:DevOpsManager.MobileApp.ViewModels;assembly=DevOpsManager.MobileApp.ViewModels"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="DevOpsManager.MobileApp.App">
     <Application.Resources>
+        <ControlTemplate x:Key="defaultTemplate" x:DataType="vm:ViewModelBase">
+            <StackLayout>
+                <!--<ActivityIndicator IsVisible="{Binding IsLoading}"
+                                   IsRunning="{Binding IsLoading}" />-->
+                <ContentPresenter />
+            </StackLayout>
+        </ControlTemplate>
+        
         <Style TargetType="Button">
             <Setter Property="Visual" Value="Material" />
         </Style>

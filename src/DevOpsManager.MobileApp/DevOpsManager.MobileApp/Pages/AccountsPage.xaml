@@ -9,6 +9,7 @@
              xmlns:conv="clr-namespace:DevOpsManager.MobileApp.Converters"
              mc:Ignorable="d"
              x:DataType="vm:AccountsViewModel"
+             ControlTemplate="{StaticResource defaultTemplate}"
              x:Class="DevOpsManager.MobileApp.Pages.AccountsPage">
 
     <ContentPage.Resources>
