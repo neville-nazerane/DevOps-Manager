@@ -16,11 +16,14 @@ namespace DevOpsManager.MobileApp.ViewModels
     {
         private readonly DevOpsService _devOpsService;
         private readonly PersistantState _persistantState;
+        private readonly FavoriteService _favoriteService;
         private ObservableCollection<Project> _projects;
 
         public Command ChangeOrgCommand => BuildCommand(ChangeOrgAsync);
 
-        public Command<Project> ToPipelineCommand => BuildCommand<Project>(GoToPipelinesAsync);
+        public Command<Project> ToPipelineCommand { get; }
+
+        public Command<Project> UpdateFavoriteCommand { get; }
 
         public ObservableCollection<Project> Projects
         {
@@ -32,10 +35,14 @@ namespace DevOpsManager.MobileApp.ViewModels
             }
         }
 
-        public ProjectsViewModel(DevOpsService devOpsService, PersistantState persistantState)
+        public ProjectsViewModel(DevOpsService devOpsService, PersistantState persistantState, FavoriteService favoriteService)
         {
             _devOpsService = devOpsService;
             _persistantState = persistantState;
+            _favoriteService = favoriteService;
+
+            ToPipelineCommand = BuildCommand<Project>(GoToPipelinesAsync);
+            UpdateFavoriteCommand = new Command<Project>(_favoriteService.UpdateProject);
         }
 
         private Task ChangeOrgAsync()
@@ -49,7 +56,11 @@ namespace DevOpsManager.MobileApp.ViewModels
             if (!string.IsNullOrEmpty(_persistantState.Project))
                 await GoToPipelinesAsync(_persistantState.Project);
             else
-                Projects = await _devOpsService.GetProjectsAsync();
+            {
+                var projects = await _devOpsService.GetProjectsAsync();
+                _favoriteService.UpdateToProjects(Projects);
+                Projects = projects;
+            }
         }
 
         private Task GoToPipelinesAsync(Project project) => GoToPipelinesAsync(project.Id);

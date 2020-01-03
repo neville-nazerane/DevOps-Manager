@@ -31,6 +31,7 @@ namespace DevOpsManager.MobileApp
                     })
                     .AddSingleton<PersistantState>()
                     .AddSingleton<DevOpsService>()
+                    .AddSingleton<FavoriteService>()
                     .Build();
 
         }
@@ -40,6 +41,7 @@ namespace DevOpsManager.MobileApp
             var mapper = BsonMapper.Global;
 
             mapper.Entity<Account>().Id(a => a.Name);
+            mapper.Entity<Favorite>().Id(a => a.Id);
         }
 
         private async Task OnNavigateAsync(Page page)

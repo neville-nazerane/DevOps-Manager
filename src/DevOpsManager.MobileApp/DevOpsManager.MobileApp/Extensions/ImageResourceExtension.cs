@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DevOpsManager.MobileApp.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
@@ -23,7 +24,7 @@ namespace DevOpsManager.MobileApp.Extensions
             }
 
             // Do your translation lookup here, using whatever method you require
-            var imageSource = ImageSource.FromResource($"DevOpsManager.MobileApp.Images.{Source}", currentAssembly);
+            var imageSource = Source.GetSharedImage();
 
             return imageSource;
         }
