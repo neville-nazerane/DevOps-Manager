@@ -15,7 +15,7 @@ namespace DevOpsManager.MobileApp.Services
 
         static readonly LiteDatabase db = new LiteDatabase(DatabaseLocation);
 
-        LiteCollection<Favorite> Collection => db.GetCollection<Favorite>();
+        ILiteCollection<Favorite> Collection => db.GetCollection<Favorite>();
 
         private void Add(string id)
         {
@@ -30,10 +30,10 @@ namespace DevOpsManager.MobileApp.Services
 
         public void Remove(string id)
         {
-            Collection.Delete(FindQuery(new Favorite { Id = id }));
+            Collection.Delete(id);
         }
 
-        private Query FindQuery(Favorite favorite)
+        private BsonExpression FindQuery(Favorite favorite)
             => Query.EQ(nameof(favorite.Id), favorite.Id);
 
         #region projects 

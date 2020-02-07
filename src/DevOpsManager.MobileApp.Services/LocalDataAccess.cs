@@ -19,7 +19,7 @@ namespace DevOpsManager.MobileApp.Services
         {
             private readonly LiteDatabase _db;
 
-            public LiteCollection<T> Collection { get; }
+            public ILiteCollection<T> Collection { get; }
 
             public CollectionContext(LiteDatabase db, string collectionName)
             {
