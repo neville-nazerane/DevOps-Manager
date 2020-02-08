@@ -13,7 +13,7 @@
     <PackageReference Include="Syncfusion.Xamarin.SfCarousel" Version="17.3.0.29" />
     <PackageReference Include="Syncfusion.Xamarin.SfListView" Version="17.3.0.29" />
     <PackageReference Include="Syncfusion.Xamarin.SfTreeView" Version="17.3.0.29" />-->
-    <PackageReference Include="Xamarin.Forms" Version="4.6.0.274-nightly" />
+    <PackageReference Include="Xamarin.Forms" Version="4.6.0.276-nightly" />
     <PackageReference Include="Xamarin.Essentials" Version="1.4.0-pre2" />
   </ItemGroup>
 
