@@ -1,5 +1,5 @@
-﻿using DevOpsManager.MobileApp.Components.Models;
-using DevOpsManager.MobileApp.Helpers;
+﻿using DevOpsManager.MobileApp.Helpers;
+using DevOpsManager.MobileApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,20 +10,20 @@ namespace DevOpsManager.MobileApp.Components
     class StarredView : Image
     {
 
-        public static readonly BindableProperty IsStarredProperty = BindableProperty.Create(nameof(IsStarred), typeof(bool), typeof(StarredView), propertyChanged: OnStarChanged);
+        public static readonly BindableProperty IsStarredProperty = BindableProperty.Create(nameof(IsStarred), typeof(bool), typeof(StarredView), propertyChanged: OnStarChanged, defaultBindingMode: BindingMode.TwoWay);
 
         public static readonly BindableProperty IdentifierProperty = BindableProperty.Create(nameof(Identifier), typeof(string), typeof(StarredView));
 
-        public static readonly BindableProperty SwitchedCommandProperty = BindableProperty.Create(nameof(SwitchedCommand), typeof(Command<StarredContext>), typeof(StarredView));
+        public static readonly BindableProperty TappedCommandProperty = BindableProperty.Create(nameof(TappedCommand), typeof(Command<StarredContext>), typeof(StarredView));
 
         private readonly TapGestureRecognizer _tapGesture;
-        private bool _isStarred;
+
         public bool IsStarred
         {
-            get => _isStarred; 
+            get => (bool) GetValue(IsStarredProperty); 
             set
             {
-                _isStarred = value;
+                SetValue(IsStarredProperty, value);
                 if (value) Source = "star_on.png".GetSharedImage();
                 else Source = "star_off.png".GetSharedImage();
             }
@@ -31,7 +31,7 @@ namespace DevOpsManager.MobileApp.Components
 
         public string Identifier { get => (string)GetValue(IdentifierProperty); set => SetValue(IdentifierProperty, value); }
 
-        public Command<StarredContext> SwitchedCommand { get => (Command<StarredContext>)GetValue(SwitchedCommandProperty); set => SetValue(SwitchedCommandProperty, value);   }
+        public Command<StarredContext> TappedCommand { get => (Command<StarredContext>)GetValue(TappedCommandProperty); set => SetValue(TappedCommandProperty, value);   }
 
 
         public StarredView()
@@ -39,6 +39,13 @@ namespace DevOpsManager.MobileApp.Components
             _tapGesture = new TapGestureRecognizer {
                 Command = new Command(OnTapped)
             };
+            IsStarred = false;
+        }
+
+        private void InternalSetStarred(bool isStarred)
+        {
+            if (isStarred) Source = "star_on.png".GetSharedImage();
+            else Source = "star_off.png".GetSharedImage();
         }
 
         protected override void OnParentSet()
@@ -56,13 +63,14 @@ namespace DevOpsManager.MobileApp.Components
 
         private void OnTapped()
         {
+            IsStarred = !IsStarred;
             var context = new StarredContext { 
                 Identifier = Identifier,
                 IsStarred = IsStarred
             };
-            if (SwitchedCommand?.CanExecute(context) == true)
+            if (TappedCommand?.CanExecute(context) == true)
             {
-                SwitchedCommand.Execute(context);
+                TappedCommand.Execute(context);
             }
         }
 

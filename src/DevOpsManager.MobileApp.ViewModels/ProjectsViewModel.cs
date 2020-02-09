@@ -25,6 +25,8 @@ namespace DevOpsManager.MobileApp.ViewModels
 
         public Command<Project> UpdateFavoriteCommand { get; }
 
+        public Command<StarredContext> StarCommand { get; }
+
         public ObservableCollection<Project> Projects
         {
             get => _projects; 
@@ -43,12 +45,21 @@ namespace DevOpsManager.MobileApp.ViewModels
 
             ToPipelineCommand = BuildCommand<Project>(GoToPipelinesAsync);
             UpdateFavoriteCommand = new Command<Project>(_favoriteService.UpdateProject);
+            StarCommand = new Command<StarredContext>(StarChanged);
         }
 
         private Task ChangeOrgAsync()
         {
             _persistantState.Organization = null;
             return NavigateAsync<AccountsViewModel>();
+        }
+
+        private void StarChanged(StarredContext context)
+        {
+            if (context.IsStarred)
+                _favoriteService.AddProject(context.Identifier);
+            else
+                _favoriteService.RemoveProject(context.Identifier);
         }
 
         public override async Task InitAsync()
@@ -58,7 +69,7 @@ namespace DevOpsManager.MobileApp.ViewModels
             else
             {
                 var projects = await _devOpsService.GetProjectsAsync();
-                _favoriteService.UpdateToProjects(Projects);
+                _favoriteService.UpdateToProjects(projects.Value);
                 Projects = projects;
             }
         }

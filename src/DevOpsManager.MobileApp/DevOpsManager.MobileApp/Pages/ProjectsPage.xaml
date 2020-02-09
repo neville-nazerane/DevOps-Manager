@@ -5,13 +5,15 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:DevOpsManager.MobileApp.ViewModels;assembly=DevOpsManager.MobileApp.ViewModels"
              xmlns:m="clr-namespace:DevOpsManager.MobileApp.Models;assembly=DevOpsManager.MobileApp.Models"
+             xmlns:ext="clr-namespace:DevOpsManager.MobileApp.Extensions"
+             xmlns:comp="clr-namespace:DevOpsManager.MobileApp.Components"
              mc:Ignorable="d"
              x:DataType="vm:ProjectsViewModel"
              ControlTemplate="{StaticResource defaultTemplate}"
              x:Class="DevOpsManager.MobileApp.Pages.ProjectsPage">
 
     <CollectionView ItemsSource="{Binding Projects}"
-                    Footer="{Binding}" >
+                    Footer="{Binding}">
         <CollectionView.ItemTemplate>
             <DataTemplate x:DataType="m:Project">
                 <Grid>
@@ -20,22 +22,31 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="30" />
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="auto" />
                     </Grid.ColumnDefinitions>
+
+                    <comp:StarredView Identifier="{Binding Id}"
+                                      IsStarred="{Binding IsFavorite}"
+                                      TappedCommand="{Binding StarCommand,
+                                                                Source={RelativeSource AncestorType={x:Type vm:ProjectsViewModel}}}" />
+                    
                     <Label Text="{Binding Name}"
                                 FontAttributes="Bold"
                                 HorizontalTextAlignment="Center"
                                 FontSize="Title"
-                                Grid.ColumnSpan="2" />
+                                Grid.Column="1" Grid.ColumnSpan="2" />
+                    
                     <Label Text="{Binding Description}"
                                 FontSize="Body"
-                                Grid.Row="1" />
+                                Grid.Row="1" Grid.ColumnSpan="2" />
                     <Button Text="Go"
                                 BackgroundColor="Green"
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ProjectsViewModel}}, Path=ToPipelineCommand}"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ProjectsViewModel}}, 
+                                                                         Path=ToPipelineCommand}"
                                 CommandParameter="{Binding}"
-                                Grid.Row="1" Grid.Column="1" />
+                                Grid.Row="1" Grid.Column="2" />
                 </Grid>
             </DataTemplate>
         </CollectionView.ItemTemplate>

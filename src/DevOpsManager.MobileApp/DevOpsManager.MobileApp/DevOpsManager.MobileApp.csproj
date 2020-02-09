@@ -7,6 +7,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\delete.png" />
+    <None Remove="Images\globe.png" />
+    <None Remove="Images\key.png" />
+    <None Remove="Images\star_off.png" />
+    <None Remove="Images\star_on.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Images\delete.png" />
+    <EmbeddedResource Include="Images\globe.png" />
+    <EmbeddedResource Include="Images\key.png" />
+    <EmbeddedResource Include="Images\star_off.png" />
+    <EmbeddedResource Include="Images\star_on.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.1" />
     <PackageReference Include="Syncfusion.Licensing" Version="17.4.0.47" />
     <!--<PackageReference Include="Syncfusion.Xamarin.Cards" Version="17.3.0.29" />
