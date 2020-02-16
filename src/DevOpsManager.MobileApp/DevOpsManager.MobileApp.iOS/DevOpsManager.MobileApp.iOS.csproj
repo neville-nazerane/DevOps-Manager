@@ -120,10 +120,10 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="4.6.0.276-nightly" />
+    <PackageReference Include="Xamarin.Forms" Version="4.6.0.319-nightly" />
     <PackageReference Include="Xamarin.Essentials" Version="1.4.0-pre2" />
     <PackageReference Include="Xamarin.Forms.Visual.Material">
-      <Version>4.6.0.276-nightly</Version>
+      <Version>4.6.0.319-nightly</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
