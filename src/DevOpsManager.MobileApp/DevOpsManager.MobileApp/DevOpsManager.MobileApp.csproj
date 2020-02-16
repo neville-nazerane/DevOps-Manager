@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\add.png" />
     <None Remove="Images\delete.png" />
     <None Remove="Images\globe.png" />
     <None Remove="Images\key.png" />
@@ -33,6 +34,10 @@
     <ProjectReference Include="..\..\DevOpsManager.MobileApp.Services\DevOpsManager.MobileApp.Services.csproj" />
     <ProjectReference Include="..\..\DevOpsManager.MobileApp.ViewModels\DevOpsManager.MobileApp.ViewModels.csproj" />
     <ProjectReference Include="..\..\Xamarin.FluentInjector\Xamarin.FluentInjector.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Images\add.png" />
   </ItemGroup>
 
   <ItemGroup>

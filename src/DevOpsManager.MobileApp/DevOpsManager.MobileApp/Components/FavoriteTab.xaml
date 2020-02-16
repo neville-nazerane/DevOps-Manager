@@ -6,6 +6,7 @@
              xmlns:ext="clr-namespace:DevOpsManager.MobileApp.Extensions"
              mc:Ignorable="d"
              x:Class="DevOpsManager.MobileApp.Components.FavoriteTab"
+            RowSpacing="0"
             ColumnSpacing="0">
     <Grid.Resources>
         <Style TargetType="Label" x:Key="common">
@@ -27,18 +28,21 @@
         <ColumnDefinition Width="*" />
     </Grid.ColumnDefinitions>
     <Grid.RowDefinitions>
-        <RowDefinition Height="35" />
+        <RowDefinition Height="40" />
         <RowDefinition Height="2" />
     </Grid.RowDefinitions>
 
     <Label x:Name="allTab" 
-           Text="All" 
-           d:Style="{StaticResource common}"
-           Margin="10, 0, 0, 0" />
+        Text="All" 
+        d:Style="{StaticResource common}"
+        Padding="10, 0, 0, 0" >
+    </Label>
+
 
     <Grid Grid.Column="1" 
           ColumnSpacing="5"
-          Margin="10, 0, 0, 0">
+          Padding="10, 0, 0, 0"
+          x:Name="favContainer">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20" />
             <ColumnDefinition Width="*" />
@@ -53,12 +57,16 @@
 
     <AbsoluteLayout x:Name="slider"
                  Grid.ColumnSpan="2"
+                 SizeChanged="Slider_SizeChanged"
                  Grid.Row="1" Grid.Column="0">
         <BoxView x:Name="slide" 
                  BackgroundColor="Blue" 
                  HeightRequest="5"
                  d:WidthRequest="160" />
     </AbsoluteLayout>
-    
 
+    <Grid.GestureRecognizers>
+        <TapGestureRecognizer Tapped="Swapped" />
+    </Grid.GestureRecognizers>
+    
 </Grid>

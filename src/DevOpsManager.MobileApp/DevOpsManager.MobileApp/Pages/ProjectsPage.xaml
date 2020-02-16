@@ -12,7 +12,9 @@
              ControlTemplate="{StaticResource defaultTemplate}"
              Title="Projects"
              x:Class="DevOpsManager.MobileApp.Pages.ProjectsPage">
-
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Change Org" Command="{Binding ChangeOrgCommand}" />
+    </ContentPage.ToolbarItems>
     <Grid>
 
         <Grid.RowDefinitions>

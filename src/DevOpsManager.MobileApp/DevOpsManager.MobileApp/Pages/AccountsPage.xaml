@@ -14,6 +14,10 @@
              ControlTemplate="{StaticResource defaultTemplate}"
              x:Class="DevOpsManager.MobileApp.Pages.AccountsPage">
 
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add" IconImageSource="{ext:ImageResource 'add.png'}" Command="{Binding AddCommand}" />
+    </ContentPage.ToolbarItems>
+
     <ContentPage.Resources>
         <conv:StringToValidColor x:Key="toColor" />
     </ContentPage.Resources>
@@ -28,6 +32,7 @@
         
         <CollectionView ItemsSource="{Binding Accounts}" 
                         Footer="{Binding}"
+                        Grid.Row="1"
                         Margin="5, 20, 0, 0">
             <CollectionView.EmptyViewTemplate>
                 <DataTemplate>
@@ -71,18 +76,21 @@
                         </Label>
                         <Button ImageSource="{ext:ImageResource 'globe.png'}"
                                 Text="Get PAT"
+                                BackgroundColor="LightBlue"
                                 CommandParameter="{Binding Name}"
                                 Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AccountsViewModel}}, Path=AzureCommand}"
                                 Grid.Row="1" Grid.Column="0" />
                         <Button ImageSource="{ext:ImageResource 'key.png'}"
                                 Text="PAT"
                                 CommandParameter="{Binding}"
+                                BackgroundColor="LightBlue"
                                 Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AccountsViewModel}}, Path=SetKeyCommand}" 
                                 Grid.Row="1" Grid.Column="1" />
                         <Button ImageSource="{ext:ImageResource 'delete.png'}"
                                 Text="Delete"
                                 Visual="Material"
                                 CommandParameter="{Binding Name}"
+                                BackgroundColor="Red"
                                 Command="{Binding DeleteCommand, Source={RelativeSource AncestorType={x:Type vm:AccountsViewModel}}}"
                                 Grid.Row="1" Grid.Column="2" />
                     </Grid>

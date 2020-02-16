@@ -20,9 +20,6 @@ namespace DevOpsManager.MobileApp.Components
                                                                                                      typeof(bool),
                                                                                                      typeof(FavoriteTab),
                                                                                                      propertyChanged: IsFavoriteSelectedChanged);
-        private readonly TapGestureRecognizer _allTap;
-        private readonly TapGestureRecognizer _favTap;
-
         private bool _animatingSlide;
 
         private Style UnselectedStyle => Resources["unselected"] as Style;
@@ -42,8 +39,6 @@ namespace DevOpsManager.MobileApp.Components
         public FavoriteTab()
         {
             _animatingSlide = false;
-            _allTap = MakeRecognizer(false);
-            _favTap = MakeRecognizer(true);
             InitializeComponent();
         }
 
@@ -53,21 +48,12 @@ namespace DevOpsManager.MobileApp.Components
             {
                 allTab.Style = UnselectedStyle;
                 favTab.Style = SelectedStyle;
-
             }
             else
             {
                 favTab.Style = UnselectedStyle;
                 allTab.Style = SelectedStyle;
             }
-        }
-
-        private TapGestureRecognizer MakeRecognizer(bool selected)
-        {
-            return new TapGestureRecognizer
-            {
-                Command = new Command(async () => await ChangeAsync(selected), () => !_animatingSlide)
-            };
         }
 
         private async Task ChangeAsync(bool selected)
@@ -82,31 +68,37 @@ namespace DevOpsManager.MobileApp.Components
             _animatingSlide = false;
         }
 
-        protected override void OnParentSet()
-        {
-            base.OnParentSet();
-            if (Parent is null)
-            {
-                allTab.GestureRecognizers.Remove(_allTap);
-                favTab.GestureRecognizers.Remove(_favTap);
-                slider.SizeChanged -= Slider_SizeChanged;
-            }
-            else
-            {
-                allTab.GestureRecognizers.Add(_allTap);
-                favTab.GestureRecognizers.Add(_favTap);
-                slider.SizeChanged += Slider_SizeChanged;
-            }
-        }
-
         private void Slider_SizeChanged(object sender, EventArgs e)
         {
+        }
+
+        protected override void OnSizeAllocated(double width, double height)
+        {
+            base.OnSizeAllocated(width, height);
             slide.WidthRequest = slider.Width / 2;
         }
 
         private static void IsFavoriteSelectedChanged(BindableObject bindable, object oldValue, object newValue)
         {
             ((FavoriteTab)bindable).IsFavoriteSelected = (bool)newValue;
+        }
+
+        private async void FavTapped(object sender, EventArgs e)
+        {
+            if (_animatingSlide) return;
+            await ChangeAsync(true);
+        }
+
+        private async void AllTapped(object sender, EventArgs e)
+        {
+            if (_animatingSlide) return;
+            await ChangeAsync(false);
+        }
+
+        private async void Swapped(object sender, EventArgs e)
+        {
+            if (_animatingSlide) return;
+            await ChangeAsync(!IsFavoriteSelected);
         }
 
     }
