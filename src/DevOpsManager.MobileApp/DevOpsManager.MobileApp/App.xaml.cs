@@ -9,6 +9,9 @@ using DevOpsManager.MobileApp.Pages;
 using LiteDB;
 using DevOpsManager.MobileApp.Models;
 using System.Threading.Tasks;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Crashes;
+using Microsoft.AppCenter.Analytics;
 
 namespace DevOpsManager.MobileApp
 {
@@ -16,6 +19,9 @@ namespace DevOpsManager.MobileApp
     {
         public App()
         {
+
+            
+
             InitializeComponent();
 
             DbInit();
@@ -49,6 +55,15 @@ namespace DevOpsManager.MobileApp
                 vm.IsLoading = true;
                 await vm.InitAsync();
                 vm.IsLoading = false;
+            }
+        }
+
+        private void CheckAndSetupAppCenter()
+        {
+            if (!string.IsNullOrEmpty(Config.AppCenterConfig))
+            {
+                AppCenter.Start(Config.AppCenterConfig,
+                   typeof(Analytics), typeof(Crashes));
             }
         }
 
