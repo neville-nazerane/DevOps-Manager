@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DevOpsManager.MobileApp.Models
 {
-    public class Project
+    public class Project : IFavourable
     {
         public string Id { get; set; }
         public string Name { get; set; }

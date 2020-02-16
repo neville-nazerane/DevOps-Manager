@@ -25,7 +25,7 @@ namespace Xamarin.FluentInjector
         public async Task<bool> DisplayAlert(string title, string message, string accept, string cancel) => await CurrentPage.DisplayAlert(title, message, accept, cancel);
 
         public async Task<string> DisplayPromptAsync(string title, string message, string accept = "OK", string cancel = "Cancel", string placeholder = null, int maxLength = -1, Keyboard keyboard = null) 
-            => await CurrentPage.DisplayPromptAsync(title, message, accept, cancel, placeholder, maxLength, keyboard);
+            => await CurrentPage.DisplayPromptAsync(title, message, accept, cancel, placeholder, maxLength, keyboard, string.Empty);
 
     }
 }

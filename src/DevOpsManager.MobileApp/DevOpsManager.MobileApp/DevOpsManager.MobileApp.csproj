@@ -41,12 +41,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Components\FavoriteTab.xaml.cs">
+      <DependentUpon>FavoriteTab.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Pages\PipelinesPage.xaml.cs">
       <DependentUpon>PipelinesPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Components\FavoriteTab.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Pages\AccountsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>

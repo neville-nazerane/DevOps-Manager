@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Grid xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ext="clr-namespace:DevOpsManager.MobileApp.Extensions"
+             mc:Ignorable="d"
+             x:Class="DevOpsManager.MobileApp.Components.FavoriteTab"
+            ColumnSpacing="0">
+    <Grid.Resources>
+        <Style TargetType="Label" x:Key="common">
+            <Setter Property="HorizontalTextAlignment" Value="Start" />
+            <Setter Property="VerticalTextAlignment" Value="Center"/>
+        </Style>
+
+        <Style TargetType="Label" x:Key="selected" BaseResourceKey="common">
+            <Setter Property="FontAttributes" Value="Bold" />
+        </Style>
+
+        <Style TargetType="Label" x:Key="unselected" BaseResourceKey="common">
+            <Setter Property="FontAttributes" Value="None" />
+        </Style>
+    </Grid.Resources>
+    
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+        <RowDefinition Height="35" />
+        <RowDefinition Height="2" />
+    </Grid.RowDefinitions>
+
+    <Label x:Name="allTab" 
+           Text="All" 
+           d:Style="{StaticResource common}"
+           Margin="10, 0, 0, 0" />
+
+    <Grid Grid.Column="1" 
+          ColumnSpacing="5"
+          Margin="10, 0, 0, 0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Image Source="{ext:ImageResource 'star_on.png'}" />
+        <Label x:Name="favTab"
+               d:Style="{StaticResource selected}"
+               Text="Favourite" 
+               Grid.Column="1" />
+    </Grid>
+
+    <AbsoluteLayout x:Name="slider"
+                 Grid.ColumnSpan="2"
+                 Grid.Row="1" Grid.Column="0">
+        <BoxView x:Name="slide" 
+                 BackgroundColor="Blue" 
+                 HeightRequest="5"
+                 d:WidthRequest="160" />
+    </AbsoluteLayout>
+    
+
+</Grid>

@@ -18,6 +18,7 @@ namespace DevOpsManager.MobileApp.ViewModels
         private readonly PersistantState _persistantState;
         private readonly FavoriteService _favoriteService;
         private ObservableCollection<Project> _projects;
+        private bool _isFavoritesShowing;
 
         public Command ChangeOrgCommand => BuildCommand(ChangeOrgAsync);
 
@@ -27,9 +28,20 @@ namespace DevOpsManager.MobileApp.ViewModels
 
         public Command<StarredContext> StarCommand { get; }
 
+        public bool IsFavoritesShowing
+        {
+            get => _isFavoritesShowing; 
+            set
+            {
+                _isFavoritesShowing = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(Projects));
+            }
+        }
+
         public ObservableCollection<Project> Projects
         {
-            get => _projects; 
+            get => _projects;
             set
             {
                 _projects = value;

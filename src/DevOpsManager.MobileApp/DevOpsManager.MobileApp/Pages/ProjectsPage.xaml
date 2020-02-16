@@ -10,94 +10,71 @@
              mc:Ignorable="d"
              x:DataType="vm:ProjectsViewModel"
              ControlTemplate="{StaticResource defaultTemplate}"
+             Title="Projects"
              x:Class="DevOpsManager.MobileApp.Pages.ProjectsPage">
 
-    <CollectionView ItemsSource="{Binding Projects}"
-                    Footer="{Binding}">
-        <CollectionView.ItemTemplate>
-            <DataTemplate x:DataType="m:Project">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="30" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="auto" />
-                    </Grid.ColumnDefinitions>
+    <Grid>
 
-                    <comp:StarredView Identifier="{Binding Id}"
-                                      IsStarred="{Binding IsFavorite}"
-                                      TappedCommand="{Binding StarCommand,
-                                                                Source={RelativeSource AncestorType={x:Type vm:ProjectsViewModel}}}" />
-                    
-                    <Label Text="{Binding Name}"
-                                FontAttributes="Bold"
-                                HorizontalTextAlignment="Center"
-                                FontSize="Title"
-                                Grid.Column="1" Grid.ColumnSpan="2" />
-                    
-                    <Label Text="{Binding Description}"
-                                FontSize="Body"
-                                Grid.Row="1" Grid.ColumnSpan="2" />
-                    <Button Text="Go"
-                                BackgroundColor="Green"
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ProjectsViewModel}}, 
-                                                                         Path=ToPipelineCommand}"
-                                CommandParameter="{Binding}"
-                                Grid.Row="1" Grid.Column="2" />
-                </Grid>
-            </DataTemplate>
-        </CollectionView.ItemTemplate>
-        <CollectionView.FooterTemplate>
-            <DataTemplate>
-                <Grid>
-                    <Button Text="Change organization" 
-                            Style="{StaticResource footerButton}"
-                            Command="{Binding ChangeOrgCommand}" />
-                </Grid>
-            </DataTemplate>
-        </CollectionView.FooterTemplate>
-    </CollectionView>
-    
-    <!--<StackLayout>
-        <sfList:SfListView ItemsSource="{Binding Projects}" 
-                           ItemSize="100" >
-            <sfList:SfListView.ItemTemplate>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <comp:FavoriteTab IsFavoriteSelected="{Binding IsFavoritesShowing}" />
+
+        <CollectionView ItemsSource="{Binding Projects}"
+                    Grid.Row="1"
+                    Footer="{Binding}">
+            <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="m:Project">
-                    <Grid>
+                    <Grid IsVisible="{Binding IsFavorite, 
+                                              Converter={StaticResource favConverter},
+                                              ConverterParameter={Binding IsFavoritesShowing, 
+                                                                          Source={RelativeSource AncestorType={x:Type vm:ProjectsViewModel}}}}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="auto" />
                         </Grid.ColumnDefinitions>
+
+                        <comp:StarredView Identifier="{Binding Id}"
+                                          IsStarred="{Binding IsFavorite}"
+                                          TappedCommand="{Binding StarCommand,
+                                                                    Source={RelativeSource AncestorType={x:Type vm:ProjectsViewModel}}}" />
+                    
                         <Label Text="{Binding Name}"
-                                FontAttributes="Bold"
-                                HorizontalTextAlignment="Center"
-                                FontSize="Title"
-                                Grid.ColumnSpan="2" />
+                                    FontAttributes="Bold"
+                                    HorizontalTextAlignment="Center"
+                                    FontSize="Title"
+                                    Grid.Column="1" Grid.ColumnSpan="2" />
+                    
                         <Label Text="{Binding Description}"
-                                FontSize="Body"
-                                Grid.Row="1" />
+                                    FontSize="Body"
+                                    Grid.Row="1" Grid.ColumnSpan="2" />
                         <Button Text="Go"
-                                BackgroundColor="Green"
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ProjectsViewModel}}, Path=ToPipelineCommand}"
-                                CommandParameter="{Binding}"
-                                Grid.Row="1" Grid.Column="1" />
+                                    BackgroundColor="Green"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ProjectsViewModel}}, 
+                                                                             Path=ToPipelineCommand}"
+                                    CommandParameter="{Binding}"
+                                    Grid.Row="1" Grid.Column="2" />
                     </Grid>
                 </DataTemplate>
-            </sfList:SfListView.ItemTemplate>
-            <sfList:SfListView.FooterTemplate>
+            </CollectionView.ItemTemplate>
+            <CollectionView.FooterTemplate>
                 <DataTemplate>
-                    <Button Text="Change organization" 
-                            Command="{Binding ChangeOrgCommand}" />
+                    <Grid>
+                        <Button Text="Change organization" 
+                                Style="{StaticResource footerButton}"
+                                Command="{Binding ChangeOrgCommand}" />
+                    </Grid>
                 </DataTemplate>
-            </sfList:SfListView.FooterTemplate>
-        </sfList:SfListView>
-    </StackLayout>-->
+            </CollectionView.FooterTemplate>
+        </CollectionView>
+    
+    </Grid>
     
 </ContentPage>
