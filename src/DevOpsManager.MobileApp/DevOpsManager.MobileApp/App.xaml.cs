@@ -20,7 +20,7 @@ namespace DevOpsManager.MobileApp
         public App()
         {
 
-            
+            CheckAndSetupAppCenter();
 
             InitializeComponent();
 
