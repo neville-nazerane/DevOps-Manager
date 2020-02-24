@@ -23,17 +23,15 @@
         </Grid.RowDefinitions>
 
         <comp:FavoriteTab IsFavoriteSelected="{Binding IsFavoritesShowing}"
-                          SourceData="{Binding Projects}" />
+                          SourceData="{Binding Projects}"
+                          TargetChangedCommand="{Binding ShowingProjectsChangedCommand}" />
 
-        <CollectionView ItemsSource="{Binding Projects}"
+        <CollectionView ItemsSource="{Binding ShowingProjects}"
                     Grid.Row="1"
                     Footer="{Binding}">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="m:Project">
-                    <Grid IsVisible="{Binding IsFavorite, 
-                                              Converter={StaticResource favConverter},
-                                              ConverterParameter={Binding IsFavoritesShowing, 
-                                                                          Source={RelativeSource AncestorType={x:Type vm:ProjectsViewModel}}}}">
+                    <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto" />
                             <RowDefinition Height="*" />

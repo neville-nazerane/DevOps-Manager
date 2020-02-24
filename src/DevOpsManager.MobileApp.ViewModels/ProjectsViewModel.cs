@@ -17,9 +17,10 @@ namespace DevOpsManager.MobileApp.ViewModels
         private readonly DevOpsService _devOpsService;
         private readonly PersistantState _persistantState;
         private readonly FavoriteService _favoriteService;
-        private ObservableCollection<Project> _projects;
         private bool _isFavoritesShowing;
-        private int _newStuff;
+        private Command<IEnumerable<Project>> _showingProjectsChangedCommand;
+        private IEnumerable<Project> _projects;
+        private IEnumerable<Project> _showingProjects;
 
         public Command ChangeOrgCommand => BuildCommand(ChangeOrgAsync);
 
@@ -36,19 +37,16 @@ namespace DevOpsManager.MobileApp.ViewModels
             {
                 _isFavoritesShowing = value;
                 OnPropertyChanged();
-                OnPropertyChanged(nameof(Projects));
+                //OnPropertyChanged(nameof(ShowingProjects));
             }
         }
 
-        public ObservableCollection<Project> Projects
-        {
-            get => _projects;
-            set
-            {
-                _projects = value;
-                OnPropertyChanged();
-            }
-        }
+        public IEnumerable<Project> Projects { get => _projects; set => SetProperty(ref _projects, value); }
+
+        public IEnumerable<Project> ShowingProjects { get => _showingProjects; set => SetProperty(ref _showingProjects, value); }
+        public Command<IEnumerable<Project>> ShowingProjectsChangedCommand 
+                        { get => _showingProjectsChangedCommand; 
+            set => SetProperty(ref _showingProjectsChangedCommand, value); }
 
         public ProjectsViewModel(DevOpsService devOpsService, PersistantState persistantState, FavoriteService favoriteService)
         {
@@ -57,7 +55,8 @@ namespace DevOpsManager.MobileApp.ViewModels
             _favoriteService = favoriteService;
 
             ToPipelineCommand = BuildCommand<Project>(GoToPipelinesAsync);
-            UpdateFavoriteCommand = new Command<Project>(_favoriteService.UpdateProject);
+            //UpdateFavoriteCommand = new Command<Project>(_favoriteService.UpdateProject);
+            ShowingProjectsChangedCommand = new Command<IEnumerable<Project>>(p => ShowingProjects = p);
             StarCommand = new Command<StarredContext>(StarChanged);
         }
 
@@ -83,7 +82,7 @@ namespace DevOpsManager.MobileApp.ViewModels
             {
                 var projects = await _devOpsService.GetProjectsAsync();
                 _favoriteService.UpdateToProjects(projects.Value);
-                Projects = projects;
+                Projects = projects.Value;
             }
         }
 

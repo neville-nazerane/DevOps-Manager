@@ -26,7 +26,7 @@ namespace DevOpsManager.MobileApp.Components
         public static readonly BindableProperty SourceDataProperty = BindableProperty.Create(nameof(SourceData),
                                                                                              typeof(IEnumerable<IFavourable>),
                                                                                              typeof(FavoriteTab),
-                                                                                             defaultBindingMode: BindingMode.OneWayToSource,
+                                                                                             defaultBindingMode: BindingMode.OneWay,
                                                                                              propertyChanged: SourceDataChanged);
 
         public static readonly BindableProperty TargetChangedCommandProperty = BindableProperty.Create(nameof(TargetChangedCommand),
@@ -56,7 +56,7 @@ namespace DevOpsManager.MobileApp.Components
             set
             {
                 SetValue(SourceDataProperty, value);
-                UpdateTarget();
+                //UpdateTarget();
             }
         }
 
@@ -88,7 +88,7 @@ namespace DevOpsManager.MobileApp.Components
                 favTab.Style = UnselectedStyle;
                 allTab.Style = SelectedStyle;
             }
-            UpdateTarget();
+            //UpdateTarget();
         }
 
         private void UpdateTarget()
