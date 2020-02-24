@@ -22,7 +22,8 @@
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
-        <comp:FavoriteTab IsFavoriteSelected="{Binding IsFavoritesShowing}" />
+        <comp:FavoriteTab IsFavoriteSelected="{Binding IsFavoritesShowing}"
+                          SourceData="{Binding Projects}" />
 
         <CollectionView ItemsSource="{Binding Projects}"
                     Grid.Row="1"

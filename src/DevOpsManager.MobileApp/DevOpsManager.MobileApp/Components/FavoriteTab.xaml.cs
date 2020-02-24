@@ -1,5 +1,7 @@
-﻿using System;
+﻿using DevOpsManager.MobileApp.Models;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +22,18 @@ namespace DevOpsManager.MobileApp.Components
                                                                                                      typeof(bool),
                                                                                                      typeof(FavoriteTab),
                                                                                                      propertyChanged: IsFavoriteSelectedChanged);
+
+        public static readonly BindableProperty SourceDataProperty = BindableProperty.Create(nameof(SourceData),
+                                                                                             typeof(IEnumerable<IFavourable>),
+                                                                                             typeof(FavoriteTab),
+                                                                                             defaultBindingMode: BindingMode.OneWayToSource,
+                                                                                             propertyChanged: SourceDataChanged);
+
+        public static readonly BindableProperty TargetChangedCommandProperty = BindableProperty.Create(nameof(TargetChangedCommand),
+                                                                                                      typeof(Command<IEnumerable<IFavourable>>),
+                                                                                                      typeof(FavoriteTab),
+                                                                                                      propertyChanged: TargetChangedCommandChanged);
+
         private bool _animatingSlide;
 
         private Style UnselectedStyle => Resources["unselected"] as Style;
@@ -33,6 +47,26 @@ namespace DevOpsManager.MobileApp.Components
             {
                 SetValue(IsFavoriteSelectedProperty, value);
                 UpdateUI();
+            }
+        }
+
+        public IEnumerable<IFavourable> SourceData
+        {
+            get => (IEnumerable<IFavourable>)GetValue(SourceDataProperty);
+            set
+            {
+                SetValue(SourceDataProperty, value);
+                UpdateTarget();
+            }
+        }
+
+        public Command<IEnumerable<IFavourable>> TargetChangedCommand
+        {
+            get => (Command<IEnumerable<IFavourable>>)GetValue(TargetChangedCommandProperty);
+            set
+            {
+                SetValue(TargetChangedCommandProperty, value);
+                UpdateTarget();
             }
         }
 
@@ -53,6 +87,23 @@ namespace DevOpsManager.MobileApp.Components
             {
                 favTab.Style = UnselectedStyle;
                 allTab.Style = SelectedStyle;
+            }
+            UpdateTarget();
+        }
+
+        private void UpdateTarget()
+        {
+            if (SourceData != null && TargetChangedCommand != null)
+            {
+                IEnumerable<IFavourable> newData;
+                if (IsFavoriteSelected)
+                    newData = SourceData.Where(d => d.IsFavorite);
+                else
+                    newData = SourceData;
+                if (TargetChangedCommand.CanExecute(newData))
+                {
+                    TargetChangedCommand.Execute(newData);
+                }
             }
         }
 
@@ -81,6 +132,16 @@ namespace DevOpsManager.MobileApp.Components
         private static void IsFavoriteSelectedChanged(BindableObject bindable, object oldValue, object newValue)
         {
             ((FavoriteTab)bindable).IsFavoriteSelected = (bool)newValue;
+        }
+
+        private static void SourceDataChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            ((FavoriteTab)bindable).SourceData = (IEnumerable<IFavourable>)newValue;
+        }
+
+        private static void TargetChangedCommandChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            ((FavoriteTab)bindable).TargetChangedCommand = (Command<IEnumerable<IFavourable>>)newValue;
         }
 
         private async void FavTapped(object sender, EventArgs e)

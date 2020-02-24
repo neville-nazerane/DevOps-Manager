@@ -19,6 +19,7 @@ namespace DevOpsManager.MobileApp.ViewModels
         private readonly FavoriteService _favoriteService;
         private ObservableCollection<Project> _projects;
         private bool _isFavoritesShowing;
+        private int _newStuff;
 
         public Command ChangeOrgCommand => BuildCommand(ChangeOrgAsync);
 
@@ -30,7 +31,7 @@ namespace DevOpsManager.MobileApp.ViewModels
 
         public bool IsFavoritesShowing
         {
-            get => _isFavoritesShowing; 
+            get => _isFavoritesShowing;
             set
             {
                 _isFavoritesShowing = value;
