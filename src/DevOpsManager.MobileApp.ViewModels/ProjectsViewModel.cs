@@ -44,9 +44,12 @@ namespace DevOpsManager.MobileApp.ViewModels
         public IEnumerable<Project> Projects { get => _projects; set => SetProperty(ref _projects, value); }
 
         public IEnumerable<Project> ShowingProjects { get => _showingProjects; set => SetProperty(ref _showingProjects, value); }
-        public Command<IEnumerable<Project>> ShowingProjectsChangedCommand 
-                        { get => _showingProjectsChangedCommand; 
-            set => SetProperty(ref _showingProjectsChangedCommand, value); }
+        public Command<IEnumerable<IFavourable>> ShowingProjectsChangedCommand { get; set; }
+        //{
+        //    get => _showingProjectsChangedCommand;
+        //    set => SetProperty(ref _showingProjectsChangedCommand, value);
+        //}
+            = new Command<IEnumerable<IFavourable>>(c => { });
 
         public ProjectsViewModel(DevOpsService devOpsService, PersistantState persistantState, FavoriteService favoriteService)
         {
@@ -56,7 +59,6 @@ namespace DevOpsManager.MobileApp.ViewModels
 
             ToPipelineCommand = BuildCommand<Project>(GoToPipelinesAsync);
             //UpdateFavoriteCommand = new Command<Project>(_favoriteService.UpdateProject);
-            ShowingProjectsChangedCommand = new Command<IEnumerable<Project>>(p => ShowingProjects = p);
             StarCommand = new Command<StarredContext>(StarChanged);
         }
 

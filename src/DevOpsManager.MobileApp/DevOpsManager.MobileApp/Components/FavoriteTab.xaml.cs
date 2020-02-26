@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -17,6 +17,8 @@ namespace DevOpsManager.MobileApp.Components
 
         public const string AllKey = "all";
         public const string TabKey = "tab";
+         
+
 
         public static readonly BindableProperty IsFavoriteSelectedProperty = BindableProperty.Create(nameof(IsFavoriteSelected),
                                                                                                      typeof(bool),
