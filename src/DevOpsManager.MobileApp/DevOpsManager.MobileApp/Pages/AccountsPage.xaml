@@ -100,9 +100,7 @@
             <CollectionView.FooterTemplate>
                 <DataTemplate>
                     <Grid>
-                        <Button Text="Add"
-                                Style="{StaticResource footerButton}"
-                                Command="{Binding AddCommand}" />
+                        
                     </Grid>
                 </DataTemplate>
             </CollectionView.FooterTemplate>
