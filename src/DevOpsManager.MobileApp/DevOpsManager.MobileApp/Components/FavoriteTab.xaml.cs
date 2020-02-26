@@ -58,7 +58,7 @@ namespace DevOpsManager.MobileApp.Components
             set
             {
                 SetValue(SourceDataProperty, value);
-                //UpdateTarget();
+                UpdateTarget();
             }
         }
 
@@ -90,7 +90,7 @@ namespace DevOpsManager.MobileApp.Components
                 favTab.Style = UnselectedStyle;
                 allTab.Style = SelectedStyle;
             }
-            //UpdateTarget();
+            UpdateTarget();
         }
 
         private void UpdateTarget()
