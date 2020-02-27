@@ -35,21 +35,23 @@ namespace DevOpsManager.MobileApp.ViewModels
             get => _isFavoritesShowing;
             set
             {
-                _isFavoritesShowing = value;
-                OnPropertyChanged();
-                //OnPropertyChanged(nameof(ShowingProjects));
+                SetProperty(ref _isFavoritesShowing, value);
+                UpdateShowingProjects();
             }
         }
 
-        public IEnumerable<Project> Projects { get => _projects; set => SetProperty(ref _projects, value); }
+        public IEnumerable<Project> Projects
+        {
+            get => _projects; 
+            set
+            {
+                _projects = value;
+                UpdateShowingProjects();
+            }
+        }
 
         public IEnumerable<Project> ShowingProjects { get => _showingProjects; 
             set => SetProperty(ref _showingProjects, value); }
-        public Command<IEnumerable<IFavourable>> ShowingProjectsChangedCommand
-        {
-            get => _showingProjectsChangedCommand;
-            set => SetProperty(ref _showingProjectsChangedCommand, value);
-        }
 
         public ProjectsViewModel(DevOpsService devOpsService, PersistantState persistantState, FavoriteService favoriteService)
         {
@@ -58,7 +60,6 @@ namespace DevOpsManager.MobileApp.ViewModels
             _favoriteService = favoriteService;
 
             ToPipelineCommand = BuildCommand<Project>(GoToPipelinesAsync);
-            ShowingProjectsChangedCommand = new Command<IEnumerable<IFavourable>>(p => ShowingProjects = p.Cast<Project>());
             //UpdateFavoriteCommand = new Command<Project>(_favoriteService.UpdateProject);
             StarCommand = new Command<StarredContext>(StarChanged);
         }
@@ -73,6 +74,14 @@ namespace DevOpsManager.MobileApp.ViewModels
         //{
         //    ShowingProjects = projs.Cast<proje>
         //}
+
+        private void UpdateShowingProjects()
+        {
+            if (IsFavoritesShowing)
+                ShowingProjects = Projects.Where(p => p.IsFavorite);
+            else
+                ShowingProjects = Projects;
+        }
 
         private void StarChanged(StarredContext context)
         {

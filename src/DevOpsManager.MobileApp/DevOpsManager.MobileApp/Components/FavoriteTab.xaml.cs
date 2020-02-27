@@ -23,6 +23,7 @@ namespace DevOpsManager.MobileApp.Components
         public static readonly BindableProperty IsFavoriteSelectedProperty = BindableProperty.Create(nameof(IsFavoriteSelected),
                                                                                                      typeof(bool),
                                                                                                      typeof(FavoriteTab),
+                                                                                                     defaultBindingMode: BindingMode.TwoWay,
                                                                                                      propertyChanged: IsFavoriteSelectedChanged);
 
         public static readonly BindableProperty SourceDataProperty = BindableProperty.Create(nameof(SourceData),

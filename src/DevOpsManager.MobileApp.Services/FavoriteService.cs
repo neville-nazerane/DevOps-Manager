@@ -19,10 +19,9 @@ namespace DevOpsManager.MobileApp.Services
 
         private void Add(string id)
         {
-            Favorite favorite = new Favorite { Id = id };
-            bool found = Collection.Exists(FindQuery(favorite));
-            if (!found)
+            if (Collection.FindById(id) is null)
             {
+                Favorite favorite = new Favorite { Id = id };
                 Collection.Insert(favorite);
                 Collection.EnsureIndex(nameof(favorite.Id));
             }

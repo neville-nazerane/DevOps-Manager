@@ -88,7 +88,7 @@ namespace DevOpsManager.MobileApp.ViewModels
 
         public async Task SetKeyAsync(Account account)
         {
-            string keyToStore = await DisplayPromptAsync("Enter Key", "Ender your key here");
+            string keyToStore = await DisplayPromptAsync("Enter Key", "Enter your key here");
             if (keyToStore == null) return;
             if (account.Key != null)
                 SecureStorage.Remove(account.Key);
