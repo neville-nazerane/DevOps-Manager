@@ -89,6 +89,7 @@ namespace DevOpsManager.MobileApp.ViewModels
                 _favoriteService.AddProject(context.Identifier);
             else
                 _favoriteService.RemoveProject(context.Identifier);
+            UpdateShowingProjects();
         }
 
         public override async Task InitAsync()
