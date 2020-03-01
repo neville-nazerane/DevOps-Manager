@@ -40,60 +40,62 @@
                 </DataTemplate>
             </CollectionView.EmptyViewTemplate>
 
-            <!--<CollectionView.HeaderTemplate>
-                <DataTemplate>
-                    <Label Text="Your Accounts"
-                           FontAttributes="Bold"
-                           HorizontalTextAlignment="Center"
-                           FontSize="Title" />
-                </DataTemplate>
-            </CollectionView.HeaderTemplate>-->
-
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="m:Account">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="50" />
-                            <RowDefinition Height="40" />
-                        </Grid.RowDefinitions>
-                        <Label Text="{Binding Name}" 
-                                       VerticalTextAlignment="Center"
-                                       FontSize="Large"
-                                       Padding="0"
-                                       Margin="20, 0, 0, 0"
-                                       LineBreakMode="NoWrap"
-                                       Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
-                                       TextColor="{Binding Name, Converter={StaticResource Key=toColor}}" >
-                            <Label.GestureRecognizers>
-                                <TapGestureRecognizer CommandParameter="{Binding}"
-                                                      Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AccountsViewModel}}, Path=GoCommand}" />
-                            </Label.GestureRecognizers>
-                        </Label>
-                        <Button ImageSource="{ext:ImageResource 'globe.png'}"
-                                Text="Get PAT"
-                                BackgroundColor="LightBlue"
-                                CommandParameter="{Binding Name}"
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AccountsViewModel}}, Path=AzureCommand}"
-                                Grid.Row="1" Grid.Column="0" />
-                        <Button ImageSource="{ext:ImageResource 'key.png'}"
-                                Text="PAT"
-                                CommandParameter="{Binding}"
-                                BackgroundColor="LightBlue"
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AccountsViewModel}}, Path=SetKeyCommand}" 
-                                Grid.Row="1" Grid.Column="1" />
-                        <Button ImageSource="{ext:ImageResource 'delete.png'}"
-                                Text="Delete"
-                                Visual="Material"
-                                CommandParameter="{Binding Name}"
-                                BackgroundColor="Red"
-                                Command="{Binding DeleteCommand, Source={RelativeSource AncestorType={x:Type vm:AccountsViewModel}}}"
-                                Grid.Row="1" Grid.Column="2" />
-                    </Grid>
+                    <SwipeView>
+                        <SwipeView.RightItems>
+                            <SwipeItems>
+                                <SwipeItem Text="Delete" 
+                                           IconImageSource="{ext:ImageResource 'delete.png'}"
+                                           CommandParameter="{Binding Name}"
+                                           BackgroundColor="Red"
+                                           Command="{Binding DeleteCommand, Source={RelativeSource AncestorType={x:Type vm:AccountsViewModel}}}" />
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50" />
+                                <RowDefinition Height="40" />
+                            </Grid.RowDefinitions>
+                            <Label Text="{Binding Name}" 
+                                           VerticalTextAlignment="Center"
+                                           FontSize="Large"
+                                           Padding="0"
+                                           Margin="20, 0, 0, 0"
+                                           LineBreakMode="NoWrap"
+                                           Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
+                                           TextColor="{Binding Name, Converter={StaticResource Key=toColor}}" >
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer CommandParameter="{Binding}"
+                                                          Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AccountsViewModel}}, Path=GoCommand}" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                            <Button ImageSource="{ext:ImageResource 'globe.png'}"
+                                    Text="Get PAT"
+                                    BackgroundColor="LightBlue"
+                                    CommandParameter="{Binding Name}"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AccountsViewModel}}, Path=AzureCommand}"
+                                    Grid.Row="1" Grid.Column="0" />
+                            <Button ImageSource="{ext:ImageResource 'key.png'}"
+                                    Text="PAT"
+                                    CommandParameter="{Binding}"
+                                    BackgroundColor="LightBlue"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AccountsViewModel}}, Path=SetKeyCommand}" 
+                                    Grid.Row="1" Grid.Column="1" />
+                            <Button ImageSource="{ext:ImageResource 'delete.png'}"
+                                    Text="Delete"
+                                    Visual="Material"
+                                    CommandParameter="{Binding Name}"
+                                    BackgroundColor="Red"
+                                    Command="{Binding DeleteCommand, Source={RelativeSource AncestorType={x:Type vm:AccountsViewModel}}}"
+                                    Grid.Row="1" Grid.Column="2" />
+                        </Grid>
+                    </SwipeView>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
 
