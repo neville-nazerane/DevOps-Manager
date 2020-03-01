@@ -19,6 +19,7 @@ namespace DevOpsManager.MobileApp.ViewModels
         private ObservableCollection<Account> _accounts;
         private readonly DevOpsService _devOpsService;
         private readonly PersistantState _persistantState;
+        private readonly ILiteDatabase _db;
 
         public ObservableCollection<Account> Accounts
         {
@@ -40,10 +41,10 @@ namespace DevOpsManager.MobileApp.ViewModels
 
         public Command<Account> GoCommand => BuildCommand<Account>(GoToAccountAsync);
 
-        public AccountsViewModel(DevOpsService devOpsService, PersistantState persistantState)
+        public AccountsViewModel(DevOpsService devOpsService, PersistantState persistantState, ILiteDatabase db)
         {
-            using var db = new LiteDatabase(DatabaseLocation);
-            var collection = db.GetCollection<Account>();
+            _db = db;
+            var collection = _db.GetCollection<Account>();
             Accounts = new ObservableCollection<Account>(collection.FindAll());
             _devOpsService = devOpsService;
             _persistantState = persistantState;
@@ -67,8 +68,7 @@ namespace DevOpsManager.MobileApp.ViewModels
             {
                 Name = name.Trim(),
             };
-            using var db = new LiteDatabase(DatabaseLocation);
-            var collection = db.GetCollection<Account>();
+            var collection = _db.GetCollection<Account>();
             collection.Insert(account);
             Accounts.Add(account);
         }
@@ -94,17 +94,15 @@ namespace DevOpsManager.MobileApp.ViewModels
                 SecureStorage.Remove(account.Key);
             account.Key = Guid.NewGuid().ToString("N");
             await SecureStorage.SetAsync(account.Key, keyToStore);
-            using var db = new LiteDatabase(DatabaseLocation);
-            var collection = db.GetCollection<Account>();
+            var collection = _db.GetCollection<Account>();
             collection.Update(account);
         }
 
         public void Delete(string name)
         {
-            using var db = new LiteDatabase(DatabaseLocation);
-            var collection = db.GetCollection<Account>();
+            var collection = _db.GetCollection<Account>();
             collection.Delete(name);
-            Accounts.Remove(Accounts.Single(a => a.Name == name));
+            Accounts.Remove(Accounts.FirstOrDefault(a => a.Name == name));
         }
 
     }

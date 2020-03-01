@@ -12,55 +12,46 @@ namespace DevOpsManager.MobileApp.Services
     {
 
         public const string projectKey = "project";
+        private readonly ILiteDatabase _database;
 
-        static readonly LiteDatabase db = new LiteDatabase(DatabaseLocation);
-
-        ILiteCollection<Favorite> Collection => db.GetCollection<Favorite>();
-
-        private void Add(string id)
+        public FavoriteService(ILiteDatabase database)
         {
-            if (Collection.FindById(id) is null)
+            _database = database;
+        }
+
+        private ICollection<string> Get(string id)
+        {
+            var coll = _database.GetCollection<Favorited>();
+            var result = coll.FindById(id)?.SelectedIds;
+            if (result is null)
+                result = new HashSet<string>();
+            return result;
+        }
+
+        private void Update(string id, ICollection<string> ids)
+        {
+            var coll = _database.GetCollection<Favorited>();
+            var fav = coll.FindById(id);
+            if (fav is null)
             {
-                Favorite favorite = new Favorite { Id = id };
-                Collection.Insert(favorite);
-                Collection.EnsureIndex(nameof(favorite.Id));
+                coll.Insert(new Favorited
+                {
+                    Id = id,
+                    SelectedIds = ids
+                });
             }
-        }
-
-        public void Remove(string id)
-        {
-            Collection.Delete(id);
-        }
-
-        private BsonExpression FindQuery(Favorite favorite)
-            => Query.EQ(nameof(favorite.Id), favorite.Id);
-
-        #region projects 
-
-        public void AddProject(string id) => Add($"{projectKey}-{id}");
-        public void RemoveProject(string id) => Remove($"{projectKey}-{id}");
-
-        public void UpdateProject(Project project)
-        {
-            if (project.IsFavorite)
-                AddProject(project.Id);
             else
-                RemoveProject(project.Id);
-        }
-
-        public void UpdateToProjects(IEnumerable<Project> projects)
-        {
-            BsonValue[] ids = projects.Select(p => (BsonValue) $"{projectKey}-{p.Id}").ToArray();
-            string[] found = Collection.Find(Query.In(nameof(Favorite.Id), ids))
-                                                        .Select(f => f.Id.Substring(projectKey.Length + 1)).ToArray();
-            foreach (var project in projects)
             {
-                if (found.Contains(project.Id))
-                    project.IsFavorite = true;
-                else
-                    project.IsFavorite = false;
+                fav.SelectedIds = ids;
+                coll.Update(fav);
             }
         }
+
+        #region projects
+
+        public ICollection<string> GetProjects(string accountId) => Get($"{projectKey}-{accountId}");
+
+        public void UpdateProjects(string orgId, ICollection<string> updated) => Update($"{projectKey}-{orgId}", updated);
 
         #endregion
 

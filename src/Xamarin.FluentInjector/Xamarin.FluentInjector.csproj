@@ -8,8 +8,8 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Http" Version="3.1.2" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.2" />
-    <PackageReference Include="Xamarin.Forms" Version="4.6.0.355-nightly" />
-    <PackageReference Include="Xamarin.Forms.Visual.Material" Version="4.6.0.355-nightly" />
+    <PackageReference Include="Xamarin.Forms" Version="4.7.0.381-nightly" />
+    <PackageReference Include="Xamarin.Forms.Visual.Material" Version="4.7.0.381-nightly" />
   </ItemGroup>
   
 </Project>

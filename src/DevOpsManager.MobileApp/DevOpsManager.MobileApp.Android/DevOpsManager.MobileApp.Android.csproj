@@ -61,11 +61,11 @@
     <PackageReference Include="Xamarin.Android.Support.v17.Leanback">
       <Version>28.0.0.3</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.Forms" Version="4.6.0.355-nightly" />
+    <PackageReference Include="Xamarin.Forms" Version="4.7.0.381-nightly" />
     <PackageReference Include="Xamarin.Android.Support.Core.Utils" Version="28.0.0.3" />
     <PackageReference Include="Xamarin.Essentials" Version="1.5.0" />
     <PackageReference Include="Xamarin.Forms.Visual.Material">
-      <Version>4.6.0.355-nightly</Version>
+      <Version>4.7.0.381-nightly</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

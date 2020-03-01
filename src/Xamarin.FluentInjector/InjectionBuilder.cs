@@ -42,6 +42,12 @@ namespace Xamarin.FluentInjector
 
         #region adding services
 
+        public InjectionBuilder AddSingleton<TService>(Func<IServiceProvider, TService> implementationFactory) 
+            where TService : class
+        {
+            _services.AddSingleton(implementationFactory);
+            return this;
+        }
         public InjectionBuilder AddSingleton<TService>(TService service)
             where TService : class
         {

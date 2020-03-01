@@ -21,6 +21,7 @@ namespace DevOpsManager.MobileApp.ViewModels
         private Command<IEnumerable<IFavourable>> _showingProjectsChangedCommand;
         private IEnumerable<Project> _projects;
         private IEnumerable<Project> _showingProjects;
+        private ICollection<string> favorites;
 
         public Command ChangeOrgCommand => BuildCommand(ChangeOrgAsync);
 
@@ -60,7 +61,6 @@ namespace DevOpsManager.MobileApp.ViewModels
             _favoriteService = favoriteService;
 
             ToPipelineCommand = BuildCommand<Project>(GoToPipelinesAsync);
-            //UpdateFavoriteCommand = new Command<Project>(_favoriteService.UpdateProject);
             StarCommand = new Command<StarredContext>(StarChanged);
         }
 
@@ -69,11 +69,6 @@ namespace DevOpsManager.MobileApp.ViewModels
             _persistantState.Organization = null;
             return NavigateAsync<AccountsViewModel>();
         }
-
-        //private void UpdateShowingProjects(IEnumerable<IFavourable> projs)
-        //{
-        //    ShowingProjects = projs.Cast<proje>
-        //}
 
         private void UpdateShowingProjects()
         {
@@ -86,9 +81,10 @@ namespace DevOpsManager.MobileApp.ViewModels
         private void StarChanged(StarredContext context)
         {
             if (context.IsStarred)
-                _favoriteService.AddProject(context.Identifier);
+                favorites.Add(context.Identifier);
             else
-                _favoriteService.RemoveProject(context.Identifier);
+                favorites.Remove(context.Identifier);
+            _favoriteService.UpdateProjects(_persistantState.Organization, favorites);
             UpdateShowingProjects();
         }
 
@@ -99,7 +95,15 @@ namespace DevOpsManager.MobileApp.ViewModels
             else
             {
                 var projects = await _devOpsService.GetProjectsAsync();
-                _favoriteService.UpdateToProjects(projects.Value);
+
+                favorites = _favoriteService.GetProjects(_persistantState.Organization);
+
+                foreach (var project in projects.Value)
+                {
+                    if (favorites.Contains(project.Id))
+                        project.IsFavorite = true;
+                }
+
                 Projects = projects.Value;
             }
         }

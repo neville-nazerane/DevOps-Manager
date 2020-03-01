@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.AppCenter.Analytics;
+using DevOpsManager.MobileApp.Services.Helpers;
 
 namespace DevOpsManager.MobileApp
 {
@@ -24,7 +25,7 @@ namespace DevOpsManager.MobileApp
 
             InitializeComponent();
 
-            DbInit();
+            //DbInit();
 
             this.StartInjecting()
                     .SetViewModelAssembly(typeof(MainViewModel).Assembly)
@@ -32,6 +33,7 @@ namespace DevOpsManager.MobileApp
                     .AddSingleton(new HttpClient {
                         BaseAddress = new Uri("https://dev.azure.com")
                     })
+                    .AddSingleton<ILiteDatabase>(DbInit())
                     .AddSingleton<PersistantState>()
                     .AddSingleton<DevOpsService>()
                     .AddSingleton<FavoriteService>()
@@ -39,16 +41,19 @@ namespace DevOpsManager.MobileApp
 
         }
 
-        private void DbInit()
+        private LiteDatabase DbInit()
         {
-            var mapper = BsonMapper.Global;
+            var mapper = new BsonMapper();
 
             mapper.Entity<Account>().Id(a => a.Name);
-            mapper.Entity<Favorite>().Id(a => a.Id);
+            //mapper.Entity<Favorite>().Id(a => a.Id);
+            mapper.Entity<Favorited>().Id(f => f.Id);
+
+            return new LiteDatabase(Constants.DatabaseLocation, mapper);
         }
 
         private async Task OnNavigateAsync(Page page)
-        {
+        {  
             MainPage = new NavigationPage(page);
             if (page.BindingContext is ViewModelBase vm)
             {
