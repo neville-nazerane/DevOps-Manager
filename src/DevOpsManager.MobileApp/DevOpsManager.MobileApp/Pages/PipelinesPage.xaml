@@ -5,6 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:DevOpsManager.MobileApp.ViewModels;assembly=DevOpsManager.MobileApp.ViewModels"
              xmlns:m="clr-namespace:DevOpsManager.MobileApp.Models;assembly=DevOpsManager.MobileApp.Models"
+             xmlns:comp="clr-namespace:DevOpsManager.MobileApp.Components"
              mc:Ignorable="d"
              x:DataType="vm:PipelinesViewModel"
              x:Class="DevOpsManager.MobileApp.Pages.PipelinesPage">
@@ -18,14 +19,26 @@
             <DataTemplate x:DataType="m:ReleaseDefinition">
                 <Frame  HasShadow="True"
                            BorderColor="DarkGray"
-                           CornerRadius="15"
-                           HeightRequest="300">
+                           CornerRadius="5"
+                           HeightRequest="400">
                     <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
                         <Label Text="{Binding Name}" 
                                FontSize="Title" />
                         <Label Text="{Binding Description}"
                                    FontSize="Body" 
                                    Grid.Row="1" />
+
+                        <comp:PipelineDetails 
+                                Grid.Row="2"
+                                ReleaseDefinition="{Binding}"
+                                RefreshCommand="{Binding LoadReleaseCommand, 
+                                                         Source={RelativeSource AncestorType={x:Type vm:PipelinesViewModel}}}" />
+
                     </Grid>
                 </Frame>
             </DataTemplate>

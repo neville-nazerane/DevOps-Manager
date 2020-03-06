@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Grid xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ext="clr-namespace:DevOpsManager.MobileApp.Extensions"
+             xmlns:m="clr-namespace:DevOpsManager.MobileApp.Models;assembly=DevOpsManager.MobileApp.Models"
+             mc:Ignorable="d"
+             x:Class="DevOpsManager.MobileApp.Components.PipelineDetails">
+    
+    <Grid.RowDefinitions>
+        <RowDefinition Height="30" />
+        <RowDefinition Height="250" />
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="30" />
+    </Grid.ColumnDefinitions>
+
+    <ImageButton 
+            Pressed="RefreshBtn_Pressed"
+            Grid.Column="1"
+            Source="{ext:ImageResource 'refresh.png'}" />
+
+    <CarouselView
+            x:Name="releasesCarousel"
+            PeekAreaInsets="10"
+            Grid.ColumnSpan="2" Grid.Row="1">
+        <CarouselView.ItemTemplate>
+            <DataTemplate x:DataType="m:Release">
+                <Frame  HasShadow="True"
+                           BorderColor="DarkGray"
+                           CornerRadius="15"
+                            Padding="10"
+                           HeightRequest="300">
+                    <Grid>
+                        <Label Text="{Binding Name}" 
+                               FontSize="Title" />
+                        <Label Text="{Binding CreatedOn}" 
+                               Grid.Column="1"
+                               FontSize="Title" />
+                        <Label Text="{Binding Description}"
+                                   FontSize="Body" 
+                                   Grid.Row="1" Grid.ColumnSpan="1" />
+                    </Grid>
+                </Frame>
+            </DataTemplate>
+        </CarouselView.ItemTemplate>
+    </CarouselView>
+
+</Grid>

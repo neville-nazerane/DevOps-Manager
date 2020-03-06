@@ -11,6 +11,7 @@
     <None Remove="Images\delete.png" />
     <None Remove="Images\globe.png" />
     <None Remove="Images\key.png" />
+    <None Remove="Images\refresh.png" />
     <None Remove="Images\star_off.png" />
     <None Remove="Images\star_on.png" />
   </ItemGroup>
@@ -19,6 +20,7 @@
     <EmbeddedResource Include="Images\delete.png" />
     <EmbeddedResource Include="Images\globe.png" />
     <EmbeddedResource Include="Images\key.png" />
+    <EmbeddedResource Include="Images\refresh.png" />
     <EmbeddedResource Include="Images\star_off.png" />
     <EmbeddedResource Include="Images\star_on.png" />
   </ItemGroup>
@@ -54,6 +56,9 @@
 
   <ItemGroup>
     <EmbeddedResource Update="Components\FavoriteTab.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Components\PipelineDetails.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Pages\AccountsPage.xaml">

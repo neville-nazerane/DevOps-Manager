@@ -51,5 +51,11 @@ namespace DevOpsManager.MobileApp.ViewModels
             definition.Releases = await _devOpsService.GetReleasesAsync(definition.Id.ToString());
         }
 
+        //private async Task GetDetailsAsync(ReleaseContext context)
+        //{
+        //    var releases = await _devOpsService.GetReleasesAsync(context.ReleaseId);
+        //    context.Releases = releases.Value;
+        //}
+
     }
 }
