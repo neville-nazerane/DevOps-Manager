@@ -12,33 +12,23 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Change Proj" Command="{Binding ToProjectsCommand}" />
     </ContentPage.ToolbarItems>
-    
-    <Grid Margin="0, 25, 0, 0">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="400" />
-        </Grid.RowDefinitions>
 
-        <CarouselView ItemsSource="{Binding ReleaseDefinitions}" 
-                      PeekAreaInsets="30" >
-            <CarouselView.ItemsLayout>
-                <LinearItemsLayout Orientation="Horizontal" ItemSpacing="8" />
-            </CarouselView.ItemsLayout>
-            <CarouselView.ItemTemplate>
-                <DataTemplate x:DataType="m:ReleaseDefinition">
-                    <Frame  HasShadow="True"
+    <CollectionView ItemsSource="{Binding ReleaseDefinitions}" >
+        <CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="m:ReleaseDefinition">
+                <Frame  HasShadow="True"
                            BorderColor="DarkGray"
                            CornerRadius="15"
                            HeightRequest="300">
-                        <Grid>
-                            <Label Text="{Binding Name}" 
+                    <Grid>
+                        <Label Text="{Binding Name}" 
                                FontSize="Title" />
-                            <Label Text="{Binding Description}"
+                        <Label Text="{Binding Description}"
                                    FontSize="Body" 
                                    Grid.Row="1" />
-                        </Grid>
-                    </Frame>
-                </DataTemplate>
-            </CarouselView.ItemTemplate>
-        </CarouselView>
-    </Grid>
+                    </Grid>
+                </Frame>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
 </ContentPage>
