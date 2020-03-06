@@ -28,9 +28,9 @@
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
-        <comp:FavoriteTab IsFavoriteSelected="True" />
-        
-        <CollectionView ItemsSource="{Binding Accounts}" 
+        <comp:FavoriteTab IsFavoriteSelected="{Binding IsFavoriteSelected}" />
+
+        <CollectionView ItemsSource="{Binding DisplayingAccounts}" 
                         Footer="{Binding}"
                         Grid.Row="1"
                         Margin="5, 20, 0, 0">
@@ -67,13 +67,18 @@
                                        Padding="0"
                                        Margin="20, 0, 0, 0"
                                        LineBreakMode="NoWrap"
-                                       Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
+                                       Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
                                        TextColor="{Binding Name, Converter={StaticResource Key=toColor}}" >
                             <Label.GestureRecognizers>
                                 <TapGestureRecognizer CommandParameter="{Binding}"
                                                       Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AccountsViewModel}}, Path=GoCommand}" />
                             </Label.GestureRecognizers>
                         </Label>
+                        <comp:StarredView
+                                Identifier="{Binding Name}"
+                                IsStarred="{Binding IsFavorite}"
+                                TappedCommand="{Binding StarCommand, Source={RelativeSource AncestorType={x:Type vm:AccountsViewModel}}}"
+                                Grid.Column="1" />
                         <Button ImageSource="{ext:ImageResource 'globe.png'}"
                                 Text="Get PAT"
                                 BackgroundColor="LightBlue"

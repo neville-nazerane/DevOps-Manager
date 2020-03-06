@@ -9,10 +9,13 @@
              x:DataType="vm:PipelinesViewModel"
              x:Class="DevOpsManager.MobileApp.Pages.PipelinesPage">
 
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Change Proj" Command="{Binding ToProjectsCommand}" />
+    </ContentPage.ToolbarItems>
+    
     <Grid Margin="0, 25, 0, 0">
         <Grid.RowDefinitions>
             <RowDefinition Height="400" />
-            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
         <CarouselView ItemsSource="{Binding ReleaseDefinitions}" 
@@ -37,9 +40,5 @@
                 </DataTemplate>
             </CarouselView.ItemTemplate>
         </CarouselView>
-        <Button Text="Change Project"
-                Style="{StaticResource footerButton}"
-                Command="{Binding ToProjectsCommand}"
-                Grid.Row="1" />
     </Grid>
 </ContentPage>

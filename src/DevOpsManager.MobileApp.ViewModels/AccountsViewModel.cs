@@ -16,24 +16,26 @@ namespace DevOpsManager.MobileApp.ViewModels
 {
     public class AccountsViewModel : ViewModelBase
     {
-        private ObservableCollection<Account> _accounts;
+
+        private const string FavKey = "accountsFavorite";
+
+        private ObservableCollection<Account> _displayingAccounts;
         private readonly DevOpsService _devOpsService;
         private readonly PersistantState _persistantState;
         private readonly ILiteDatabase _db;
+        private readonly FavoriteService _favoriteService;
 
-        public ObservableCollection<Account> Accounts
-        {
-            get => _accounts; 
-            set
-            {
-                _accounts = value;
-                OnPropertyChanged();
-            }
-        }
+        public ICollection<Account> Accounts { get; set; }
+
+        public ObservableCollection<Account> DisplayingAccounts { get => _displayingAccounts; set => SetProperty(ref _displayingAccounts, value); }
+
+        private readonly ICollection<string> favorites;
 
         public Command AddCommand => BuildCommand(AddAsync);
 
         public Command<string> AzureCommand => BuildCommand<string>(GoToAzureAsync);
+
+        public Command<StarredContext> StarCommand { get; }
 
         public Command<Account> SetKeyCommand => BuildCommand<Account>(SetKeyAsync);
 
@@ -41,13 +43,62 @@ namespace DevOpsManager.MobileApp.ViewModels
 
         public Command<Account> GoCommand => BuildCommand<Account>(GoToAccountAsync);
 
-        public AccountsViewModel(DevOpsService devOpsService, PersistantState persistantState, ILiteDatabase db)
+        public bool IsFavoriteSelected
+        {
+            get => Preferences.Get(FavKey, false);
+            set
+            {
+                Preferences.Set(FavKey, value);
+                OnPropertyChanged();
+                UpdateDisplaying();
+            }
+        }
+
+        public AccountsViewModel(DevOpsService devOpsService, PersistantState persistantState, ILiteDatabase db, FavoriteService favoriteService)
         {
             _db = db;
+            _favoriteService = favoriteService;
             var collection = _db.GetCollection<Account>();
-            Accounts = new ObservableCollection<Account>(collection.FindAll());
+            Accounts = new HashSet<Account>(collection.FindAll());
+            DisplayingAccounts = new ObservableCollection<Account>(Accounts);
+            favorites = favoriteService.GetAccounts();
+
+            foreach (var acc in Accounts)
+            {
+                acc.IsFavorite = favorites.Contains(acc.Name);
+            }
+            UpdateDisplaying();
             _devOpsService = devOpsService;
             _persistantState = persistantState;
+
+            StarCommand = new Command<StarredContext>(StarChanged);
+        }
+
+        private void UpdateDisplaying()
+        {
+            if (IsFavoriteSelected)
+            {
+                DisplayingAccounts = new ObservableCollection<Account>(Accounts.Where(a => a.IsFavorite));
+            }
+            else
+            {
+                DisplayingAccounts = new ObservableCollection<Account>(Accounts);
+            }
+        }
+
+        private void StarChanged(StarredContext context)
+        {
+            var account = Accounts.Single(a => a.Name == context.Identifier);
+            if (context.IsStarred)
+            {
+                account.IsFavorite = true;
+            }
+            else
+            {
+                account.IsFavorite = false;
+            }
+            UpdateDisplaying();
+            _favoriteService.UpdateAccounts(favorites);
         }
 
         public override Task InitAsync()
@@ -64,6 +115,11 @@ namespace DevOpsManager.MobileApp.ViewModels
         {
             string name = await DisplayPromptAsync("Account name", "Provide the name of your account");
             if (name == null) return;
+            if (Accounts.Any(a => a.Name == name))
+            {
+                await DisplayAlert("Already Exists", $"The name '{name}' already exists", "OK");
+                return;
+            }
             var account = new Account
             {
                 Name = name.Trim(),
@@ -71,6 +127,7 @@ namespace DevOpsManager.MobileApp.ViewModels
             var collection = _db.GetCollection<Account>();
             collection.Insert(account);
             Accounts.Add(account);
+            UpdateDisplaying();
         }
 
         public async Task GoToAzureAsync(string name)
@@ -103,6 +160,7 @@ namespace DevOpsManager.MobileApp.ViewModels
             var collection = _db.GetCollection<Account>();
             collection.Delete(name);
             Accounts.Remove(Accounts.FirstOrDefault(a => a.Name == name));
+            DisplayingAccounts.Remove(DisplayingAccounts.FirstOrDefault(a => a.Name == name));
         }
 
     }

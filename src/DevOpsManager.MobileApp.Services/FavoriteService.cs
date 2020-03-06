@@ -11,7 +11,9 @@ namespace DevOpsManager.MobileApp.Services
     public class FavoriteService
     {
 
-        public const string projectKey = "project";
+        private const string projectKey = "project";
+        private const string accountKey = "accounts";
+
         private readonly ILiteDatabase _database;
 
         public FavoriteService(ILiteDatabase database)
@@ -46,6 +48,14 @@ namespace DevOpsManager.MobileApp.Services
                 coll.Update(fav);
             }
         }
+
+        #region accounts 
+
+        public ICollection<string> GetAccounts() => Get(accountKey);
+
+        public void UpdateAccounts(ICollection<string> updated) => Update(accountKey, updated);
+
+        #endregion
 
         #region projects
 
