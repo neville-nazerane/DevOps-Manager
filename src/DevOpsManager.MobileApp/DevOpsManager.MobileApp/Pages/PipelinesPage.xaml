@@ -17,30 +17,53 @@
     <CollectionView ItemsSource="{Binding ReleaseDefinitions}" >
         <CollectionView.ItemTemplate>
             <DataTemplate x:DataType="m:ReleaseDefinition">
-                <Frame  HasShadow="True"
-                           BorderColor="DarkGray"
-                           CornerRadius="5"
-                           HeightRequest="400">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
+                <AbsoluteLayout Padding="5, 30, 5, 0"
+                                HeightRequest="350">
+
+                    <Frame CornerRadius="5"
+                           BorderColor="Black"
+                           BackgroundColor="LightGray"
+                           AbsoluteLayout.LayoutBounds="1, 1, 1, 1"
+                           AbsoluteLayout.LayoutFlags="All">
+                        
+                    </Frame>
+
+                    <comp:PipelineDetails 
+                            ReleaseDefinition="{Binding}"
+                            RefreshCommand="{Binding LoadReleaseCommand, 
+                                                     Source={RelativeSource AncestorType={x:Type vm:PipelinesViewModel}}}" />
+
+                    <Frame BorderColor="Black"
+                           BackgroundColor="AliceBlue"
+                           CornerRadius="30"
+                           HasShadow="True"
+                           Padding="0"
+                           AbsoluteLayout.LayoutBounds=".5, -20, 200, 50"
+                           AbsoluteLayout.LayoutFlags="XProportional">
                         <Label Text="{Binding Name}" 
-                               FontSize="Title" />
-                        <Label Text="{Binding Description}"
-                                   FontSize="Body" 
-                                   Grid.Row="1" />
+                               FontSize="Subtitle"
+                               Visual="Material"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Center"/>
+                    </Frame>
 
-                        <comp:PipelineDetails 
-                                Grid.Row="2"
-                                ReleaseDefinition="{Binding}"
-                                RefreshCommand="{Binding LoadReleaseCommand, 
-                                                         Source={RelativeSource AncestorType={x:Type vm:PipelinesViewModel}}}" />
+                    <!--<Frame CornerRadius="5"
+                           Grid.Row="1" Grid.ColumnSpan="3"
+                           BackgroundColor="Gray">
+                        <StackLayout>
+                            <Label Text="{Binding Description}"
+                           FontSize="Body" 
+                           Grid.Row="2" />
 
-                    </Grid>
-                </Frame>
+                            <comp:PipelineDetails 
+                            Grid.Row="3"
+                            ReleaseDefinition="{Binding}"
+                            RefreshCommand="{Binding LoadReleaseCommand, 
+                                                     Source={RelativeSource AncestorType={x:Type vm:PipelinesViewModel}}}" />
+                        </StackLayout>
+                    </Frame>-->
+
+                </AbsoluteLayout>
             </DataTemplate>
         </CollectionView.ItemTemplate>
     </CollectionView>

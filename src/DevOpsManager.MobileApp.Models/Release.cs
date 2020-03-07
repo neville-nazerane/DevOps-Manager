@@ -13,7 +13,7 @@ namespace DevOpsManager.MobileApp.Models
 
         public string Description { get; set; }
 
-        public string CreatedOn { get; set; }
+        public DateTime CreatedOn { get; set; }
 
     }
 }

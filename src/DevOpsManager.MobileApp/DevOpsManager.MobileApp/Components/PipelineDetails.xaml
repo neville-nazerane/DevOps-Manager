@@ -28,15 +28,16 @@
             Grid.ColumnSpan="2" Grid.Row="1">
         <CarouselView.ItemTemplate>
             <DataTemplate x:DataType="m:Release">
-                <Frame  HasShadow="True"
-                           BorderColor="DarkGray"
-                           CornerRadius="15"
-                            Padding="10"
-                           HeightRequest="300">
+                <Frame HasShadow="True"
+                        Margin="10, 20"
+                        BorderColor="DarkGray"
+                        CornerRadius="15"
+                        Padding="10"
+                        HeightRequest="300">
                     <Grid>
                         <Label Text="{Binding Name}" 
                                FontSize="Title" />
-                        <Label Text="{Binding CreatedOn}" 
+                        <Label Text="{Binding CreatedOn, StringFormat='{0:MM-dd-yy}'}" 
                                Grid.Column="1"
                                FontSize="Title" />
                         <Label Text="{Binding Description}"
