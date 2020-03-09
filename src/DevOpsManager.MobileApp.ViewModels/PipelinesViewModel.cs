@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace DevOpsManager.MobileApp.ViewModels
@@ -20,18 +21,25 @@ namespace DevOpsManager.MobileApp.ViewModels
         public Command ToProjectsCommand => BuildCommand(ToProjectAsync);
         
         public Command<ReleaseDefinition> LoadReleaseCommand { get; private set; }
-        
-        public Command<StarredContext> StarCommand { get; set; }
 
-        public ObservableCollection<ReleaseDefinition> ReleaseDefinitions
+        public Command SwapFavoriteCommand => new Command(() => ShowFavorites = !ShowFavorites);
+
+        public bool ShowFavorites
         {
-            get => _releaseDefinitions; 
+            get => Preferences.Get("pipelinesfav", false); 
             set
             {
-                _releaseDefinitions = value;
+                Preferences.Set("pipelinesfav", value);
+                UpdateDisplay();
                 OnPropertyChanged();
             }
         }
+
+        public Command<StarredContext> StarCommand { get; set; }
+
+        public ObservableCollection<ReleaseDefinition> ReleaseDefinitions { get => _releaseDefinitions; set => SetProperty(ref _releaseDefinitions, value); }
+
+        private IEnumerable<ReleaseDefinition> storedDefinitions;
 
         private ICollection<string> favorites;
 
@@ -47,12 +55,22 @@ namespace DevOpsManager.MobileApp.ViewModels
 
         public override async Task InitAsync()
         {
-            ReleaseDefinitions = await _devOpsService.GetReleaseDefinitionsAsync();
+            var res = await _devOpsService.GetReleaseDefinitionsAsync();
+            storedDefinitions = res.Value;
             favorites = _favoriteService.GetReleaseDef(_persistantState.Project);
-            foreach (var def in ReleaseDefinitions)
+            foreach (var def in storedDefinitions)
             {
                 def.IsFavorite = favorites.Contains(def.Id.ToString());
             }
+            UpdateDisplay();
+        }
+
+        private void UpdateDisplay()
+        {
+            if (ShowFavorites)
+                ReleaseDefinitions = new ObservableCollection<ReleaseDefinition>(storedDefinitions.Where(d => d.IsFavorite));
+            else
+                ReleaseDefinitions = new ObservableCollection<ReleaseDefinition>(storedDefinitions);
         }
 
         private Task ToProjectAsync()
@@ -66,7 +84,11 @@ namespace DevOpsManager.MobileApp.ViewModels
             if (context.IsStarred)
                 favorites.Add(context.Identifier);
             else
+            {
                 favorites.Remove(context.Identifier);
+                if (ShowFavorites) UpdateDisplay();
+            }
+
             _favoriteService.UpdateReleaseDef(_persistantState.Project, favorites);
         }
 

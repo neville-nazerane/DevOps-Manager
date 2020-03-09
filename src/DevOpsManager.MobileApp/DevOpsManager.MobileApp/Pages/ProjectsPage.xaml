@@ -6,14 +6,21 @@
              xmlns:vm="clr-namespace:DevOpsManager.MobileApp.ViewModels;assembly=DevOpsManager.MobileApp.ViewModels"
              xmlns:m="clr-namespace:DevOpsManager.MobileApp.Models;assembly=DevOpsManager.MobileApp.Models"
              xmlns:ext="clr-namespace:DevOpsManager.MobileApp.Extensions"
+             xmlns:conv="clr-namespace:DevOpsManager.MobileApp.Converters"
              xmlns:comp="clr-namespace:DevOpsManager.MobileApp.Components"
              mc:Ignorable="d"
              x:DataType="vm:ProjectsViewModel"
              ControlTemplate="{StaticResource defaultTemplate}"
              Title="Projects"
              x:Class="DevOpsManager.MobileApp.Pages.ProjectsPage">
+
+
+    
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Change Org" Command="{Binding ChangeOrgCommand}" />
+        <ToolbarItem Text="Change Org" 
+                     Command="{Binding ChangeOrgCommand}"
+                     Order="Primary" />
+
     </ContentPage.ToolbarItems>
     <Grid>
 

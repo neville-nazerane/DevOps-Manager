@@ -5,13 +5,23 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:DevOpsManager.MobileApp.ViewModels;assembly=DevOpsManager.MobileApp.ViewModels"
              xmlns:m="clr-namespace:DevOpsManager.MobileApp.Models;assembly=DevOpsManager.MobileApp.Models"
+             xmlns:conv="clr-namespace:DevOpsManager.MobileApp.Converters"
              xmlns:comp="clr-namespace:DevOpsManager.MobileApp.Components"
              mc:Ignorable="d"
              x:DataType="vm:PipelinesViewModel"
              x:Class="DevOpsManager.MobileApp.Pages.PipelinesPage">
-
+    
+    <ContentPage.Resources>
+        <conv:FavoriteBtnTextValueConverter x:Key="favBtnText" />
+    </ContentPage.Resources>
+    
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Change Proj" Command="{Binding ToProjectsCommand}" />
+        <ToolbarItem Text="Change Proj" 
+                     Order="Primary"
+                     Command="{Binding ToProjectsCommand}" />
+        <ToolbarItem Text="{Binding ShowFavorites, Converter={StaticResource favBtnText}}" 
+                     Command="{Binding SwapFavoriteCommand}"
+                     Order="Secondary" />
     </ContentPage.ToolbarItems>
 
     <CollectionView ItemsSource="{Binding ReleaseDefinitions}" >
