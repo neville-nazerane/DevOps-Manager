@@ -10,7 +10,7 @@
     
     <Grid.RowDefinitions>
         <RowDefinition Height="30" />
-        <RowDefinition Height="250" />
+        <RowDefinition Height="80" />
     </Grid.RowDefinitions>
     <Grid.ColumnDefinitions>
         <ColumnDefinition Width="*" />
@@ -33,16 +33,42 @@
                         BorderColor="DarkGray"
                         CornerRadius="15"
                         Padding="10"
-                        HeightRequest="300">
+                        HeightRequest="75">
                     <Grid>
-                        <Label Text="{Binding Name}" 
-                               FontSize="Title" />
-                        <Label Text="{Binding CreatedOn, StringFormat='{0:MM-dd-yy}'}" 
-                               Grid.Column="1"
-                               FontSize="Title" />
-                        <Label Text="{Binding Description}"
-                                   FontSize="Body" 
-                                   Grid.Row="1" Grid.ColumnSpan="1" />
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="120" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20" />
+                            <RowDefinition Height="20" />
+                        </Grid.RowDefinitions>
+
+                        <Label Text="Created On:"
+                               FontSize="Subtitle"
+                               FontAttributes="Bold"
+                               Grid.Column="0" Grid.Row="0" />
+                        <Label Text="{Binding CreatedOn, StringFormat='{0:hh:mm t, MM-dd-yy}'}" 
+                               Grid.Column="1" Grid.Row="0"
+                               FontSize="Caption" />
+
+                        <Label Text="Created By:"
+                               FontSize="Subtitle"
+                               FontAttributes="Bold"
+                               Grid.Column="0" Grid.Row="1" />
+                        <Label Text="{Binding CreatedBy.DisplayName}" 
+                               Grid.Column="1" Grid.Row="1"
+                               FontSize="Caption" />
+
+                        <!--<Label Text="Created On:"
+                               FontSize="Status"
+                               FontAttributes="Bold"
+                               Grid.Column="0" Grid.Row="0" />
+                        <Label Text="{Binding Status}" 
+                               Grid.Column="1" Grid.Row="0"
+                               FontSize="Caption" />-->
+
                     </Grid>
                 </Frame>
             </DataTemplate>

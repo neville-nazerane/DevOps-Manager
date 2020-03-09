@@ -11,9 +11,18 @@ namespace DevOpsManager.MobileApp.Models
 
         public string Name { get; set; }
 
+        //public string Status { get; set; }
+
         public string Description { get; set; }
 
         public DateTime CreatedOn { get; set; }
+
+        public IdentityRef CreatedBy { get; set; }
+
+        public Release()
+        {
+            CreatedBy = new IdentityRef();
+        }
 
     }
 }
