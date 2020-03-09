@@ -11,6 +11,7 @@ namespace DevOpsManager.MobileApp.Services
     public class FavoriteService
     {
 
+        private const string releaseDefKey = "releaseDef";
         private const string projectKey = "project";
         private const string accountKey = "accounts";
 
@@ -61,7 +62,15 @@ namespace DevOpsManager.MobileApp.Services
 
         public ICollection<string> GetProjects(string accountId) => Get($"{projectKey}-{accountId}");
 
-        public void UpdateProjects(string orgId, ICollection<string> updated) => Update($"{projectKey}-{orgId}", updated);
+        public void UpdateProjects(string accountId, ICollection<string> updated) => Update($"{projectKey}-{accountId}", updated);
+
+        #endregion
+
+        #region release def
+
+        public ICollection<string> GetReleaseDef(string projectId) => Get($"{releaseDefKey}-{projectId}");
+
+        public void UpdateReleaseDef(string projectId, ICollection<string> updated) => Update($"{releaseDefKey}-{projectId}", updated);
 
         #endregion
 

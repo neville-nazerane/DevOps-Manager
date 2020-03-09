@@ -14,10 +14,14 @@ namespace DevOpsManager.MobileApp.ViewModels
     {
         private readonly DevOpsService _devOpsService;
         private readonly PersistantState _persistantState;
+        private readonly FavoriteService _favoriteService;
         private ObservableCollection<ReleaseDefinition> _releaseDefinitions;
 
         public Command ToProjectsCommand => BuildCommand(ToProjectAsync);
-        public Command<ReleaseDefinition> LoadReleaseCommand => BuildCommand<ReleaseDefinition>(LoadReleasesAsync);
+        
+        public Command<ReleaseDefinition> LoadReleaseCommand { get; private set; }
+        
+        public Command<StarredContext> StarCommand { get; set; }
 
         public ObservableCollection<ReleaseDefinition> ReleaseDefinitions
         {
@@ -29,21 +33,41 @@ namespace DevOpsManager.MobileApp.ViewModels
             }
         }
 
-        public PipelinesViewModel(DevOpsService devOpsService, PersistantState persistantState)
+        private ICollection<string> favorites;
+
+        public PipelinesViewModel(DevOpsService devOpsService, PersistantState persistantState, FavoriteService favoriteService)
         {
             _devOpsService = devOpsService;
             _persistantState = persistantState;
+            _favoriteService = favoriteService;
+
+            StarCommand = new Command<StarredContext>(SetFavorite);
+            LoadReleaseCommand = BuildCommand<ReleaseDefinition>(LoadReleasesAsync);
         }
 
         public override async Task InitAsync()
         {
             ReleaseDefinitions = await _devOpsService.GetReleaseDefinitionsAsync();
+            favorites = _favoriteService.GetReleaseDef(_persistantState.Project);
+            foreach (var def in ReleaseDefinitions)
+            {
+                def.IsFavorite = favorites.Contains(def.Id.ToString());
+            }
         }
 
         private Task ToProjectAsync()
         {
             _persistantState.Project = null;
             return NavigateAsync<ProjectsViewModel>();
+        }
+
+        private void SetFavorite(StarredContext context)
+        {
+            if (context.IsStarred)
+                favorites.Add(context.Identifier);
+            else
+                favorites.Remove(context.Identifier);
+            _favoriteService.UpdateReleaseDef(_persistantState.Project, favorites);
         }
 
         private async Task LoadReleasesAsync(ReleaseDefinition definition)

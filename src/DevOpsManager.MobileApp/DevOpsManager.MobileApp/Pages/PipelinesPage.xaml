@@ -25,13 +25,31 @@
                            BackgroundColor="LightGray"
                            AbsoluteLayout.LayoutBounds="1, 1, 1, 1"
                            AbsoluteLayout.LayoutFlags="All">
-                        
+                        <Grid RowSpacing="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="25" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="25" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <comp:StarredView 
+                                IsStarred="{Binding IsFavorite}"
+                                Identifier="{Binding Id}"
+                                TappedCommand="{Binding StarCommand, Source={RelativeSource AncestorType={x:Type vm:PipelinesViewModel}}}" />
+
+                            <comp:PipelineDetails 
+                                ReleaseDefinition="{Binding}"
+                                Grid.Row="1" Grid.ColumnSpan="2"
+                                RefreshCommand="{Binding LoadReleaseCommand, 
+                                                     Source={RelativeSource AncestorType={x:Type vm:PipelinesViewModel}}}" />
+
+                        </Grid>
                     </Frame>
 
-                    <comp:PipelineDetails 
-                            ReleaseDefinition="{Binding}"
-                            RefreshCommand="{Binding LoadReleaseCommand, 
-                                                     Source={RelativeSource AncestorType={x:Type vm:PipelinesViewModel}}}" />
+
 
                     <Frame BorderColor="Black"
                            BackgroundColor="AliceBlue"

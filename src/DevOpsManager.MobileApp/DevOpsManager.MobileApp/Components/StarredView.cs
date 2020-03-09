@@ -12,7 +12,7 @@ namespace DevOpsManager.MobileApp.Components
 
         public static readonly BindableProperty IsStarredProperty = BindableProperty.Create(nameof(IsStarred), typeof(bool), typeof(StarredView), propertyChanged: OnStarChanged, defaultBindingMode: BindingMode.TwoWay);
 
-        public static readonly BindableProperty IdentifierProperty = BindableProperty.Create(nameof(Identifier), typeof(string), typeof(StarredView));
+        public static readonly BindableProperty IdentifierProperty = BindableProperty.Create(nameof(Identifier), typeof(object), typeof(StarredView));
 
         public static readonly BindableProperty TappedCommandProperty = BindableProperty.Create(nameof(TappedCommand), typeof(Command<StarredContext>), typeof(StarredView));
 
@@ -29,7 +29,7 @@ namespace DevOpsManager.MobileApp.Components
             }
         }
 
-        public string Identifier { get => (string)GetValue(IdentifierProperty); set => SetValue(IdentifierProperty, value); }
+        public string Identifier { get => GetValue(IdentifierProperty).ToString(); set => SetValue(IdentifierProperty, value); }
 
         public Command<StarredContext> TappedCommand { get => (Command<StarredContext>)GetValue(TappedCommandProperty); set => SetValue(TappedCommandProperty, value);   }
 
